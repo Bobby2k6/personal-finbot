@@ -35,7 +35,7 @@ export default function Settings() {
       dataSharing: false,
     },
     preferences: {
-      currency: "INR",
+      currency: user?.currency || "INR",
       language: "en",
       dateFormat: "DD/MM/YYYY",
       budgetAlerts: true,
@@ -43,8 +43,14 @@ export default function Settings() {
   });
 
   const handleSaveSettings = () => {
-    // TODO: Save settings to backend
-    console.log("Saving settings:", settings);
+    if (!user?.isDemo) {
+      // Save settings to user profile
+      updateProfile({
+        currency: settings.preferences.currency,
+        // Add other settings as needed
+      });
+      console.log("Settings saved successfully");
+    }
     setIsEditing(false);
   };
 
