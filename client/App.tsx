@@ -15,6 +15,7 @@ import Investments from "./pages/Investments";
 import Transactions from "./pages/Transactions";
 import Goals from "./pages/Goals";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
