@@ -415,10 +415,32 @@ export async function deleteInvestment(id: number): Promise<void> {
 
 // Goals API functions
 export async function getGoals(): Promise<FinancialGoal[]> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve([...DEMO_GOALS]), 300);
+    });
+  }
+
   return apiRequest<FinancialGoal[]>('/api/goals');
 }
 
 export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    const newGoal: FinancialGoal = {
+      ...goal,
+      id: Date.now(),
+      progress_percentage: goal.target_amount > 0 ? (goal.current_saved / goal.target_amount) * 100 : 0,
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(newGoal), 500);
+    });
+  }
+
   return apiRequest<FinancialGoal>('/api/goals', {
     method: 'POST',
     body: JSON.stringify({
@@ -433,6 +455,20 @@ export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_perc
 }
 
 export async function updateGoal(id: number, goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    const updatedGoal: FinancialGoal = {
+      ...goal,
+      id: id,
+      progress_percentage: goal.target_amount > 0 ? (goal.current_saved / goal.target_amount) * 100 : 0,
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(updatedGoal), 500);
+    });
+  }
+
   return apiRequest<FinancialGoal>(`/api/goals/${id}`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -447,6 +483,14 @@ export async function updateGoal(id: number, goal: Omit<FinancialGoal, "id" | "p
 }
 
 export async function deleteGoal(id: number): Promise<void> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+  }
+
   return apiRequest<void>(`/api/goals/${id}`, {
     method: 'DELETE',
   });
