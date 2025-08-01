@@ -71,7 +71,7 @@ export default function Transactions() {
               </div>
               <div>
                 <div className="text-lg font-semibold text-emerald-600">₹{monthlyBudget.remaining.toLocaleString()}</div>
-                <div className="text-xs text-gray-500">Remaining</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Remaining</div>
               </div>
             </div>
           </div>
