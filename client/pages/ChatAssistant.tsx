@@ -150,7 +150,7 @@ export default function ChatAssistant() {
                 <Bot className="w-4 h-4 text-emerald-600" />
               </div>
             </div>
-            <div className="bg-white border rounded-lg rounded-bl-sm shadow-sm p-3 max-w-md">
+            <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg rounded-bl-sm shadow-sm p-3 max-w-md">
               <div className="flex gap-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
