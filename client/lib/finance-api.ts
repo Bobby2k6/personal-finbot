@@ -152,6 +152,32 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
 
 // Authentication API functions
 export async function loginUser(email: string, password: string): Promise<AuthResponse> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // Demo login - simulate successful authentication
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+
+    const demoUser: User = {
+      id: 1,
+      name: email.split('@')[0] || 'Demo User',
+      email: email,
+      preferred_currency: 'INR',
+      theme_mode: 'light',
+      family_mode: false,
+    };
+
+    const demoResponse: AuthResponse = {
+      access_token: 'demo-token',
+      token_type: 'bearer',
+      user: demoUser,
+    };
+
+    localStorage.setItem('financebot-token', 'demo-token');
+    localStorage.setItem('financebot-demo-user', JSON.stringify(demoUser));
+    return demoResponse;
+  }
+
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -168,6 +194,32 @@ export async function loginUser(email: string, password: string): Promise<AuthRe
 }
 
 export async function registerUser(email: string, password: string, name: string): Promise<AuthResponse> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // Demo registration - simulate successful registration
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+
+    const demoUser: User = {
+      id: Date.now(),
+      name: name,
+      email: email,
+      preferred_currency: 'INR',
+      theme_mode: 'light',
+      family_mode: false,
+    };
+
+    const demoResponse: AuthResponse = {
+      access_token: 'demo-token',
+      token_type: 'bearer',
+      user: demoUser,
+    };
+
+    localStorage.setItem('financebot-token', 'demo-token');
+    localStorage.setItem('financebot-demo-user', JSON.stringify(demoUser));
+    return demoResponse;
+  }
+
   const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -185,11 +237,22 @@ export async function registerUser(email: string, password: string, name: string
 }
 
 export async function getCurrentUser(): Promise<User> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    const demoUser = localStorage.getItem('financebot-demo-user');
+    if (demoUser) {
+      return JSON.parse(demoUser);
+    }
+    throw new Error('No demo user found');
+  }
+
   return apiRequest<User>('/api/auth/me');
 }
 
 export function logoutUser(): void {
   localStorage.removeItem('financebot-token');
+  localStorage.removeItem('financebot-demo-user');
 }
 
 // Dashboard API functions
