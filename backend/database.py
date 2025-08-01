@@ -4,10 +4,10 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 # Database URL from environment variable or default to SQLite for local development
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./financebot.db")
+# DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./financebot.db")
 
 # For PostgreSQL in production, use:
-# DATABASE_URL = "postgresql://username:password@localhost/financebot"
+DATABASE_URL = "postgresql://finbot_user:cobWsVmqSkJ1l4rWe50Rkia8D9jFW9T5@dpg-d26jd6re5dus73b6d120-a.oregon-postgres.render.com/finbot_db"/
 
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
