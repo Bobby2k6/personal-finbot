@@ -118,7 +118,7 @@ export function MetricBreakdownModal({
             <CardContent className="p-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
-                  ���{total.toLocaleString()}
+                  ₹{total.toLocaleString()}
                 </div>
                 <div className="text-sm text-emerald-600 dark:text-emerald-400">
                   Total {title}
