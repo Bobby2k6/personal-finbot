@@ -123,6 +123,12 @@ function getAuthHeaders(): HeadersInit {
 }
 
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    throw new Error('Backend not available - using demo mode');
+  }
+
   const url = `${API_BASE_URL}${endpoint}`;
   const config: RequestInit = {
     headers: getAuthHeaders(),
