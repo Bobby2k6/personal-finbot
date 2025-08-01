@@ -177,9 +177,9 @@ export default function Transactions() {
         <CardContent>
           <div className="space-y-3">
             {recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-3 border rounded-lg">
+              <div key={transaction.id} className="flex items-center justify-between p-3 border dark:border-gray-700 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-full ${transaction.type === "income" ? "bg-emerald-100" : "bg-red-100"}`}>
+                  <div className={`p-2 rounded-full ${transaction.type === "income" ? "bg-emerald-100 dark:bg-emerald-900" : "bg-red-100 dark:bg-red-900"}`}>
                     {transaction.type === "income" ? (
                       <TrendingUp className="h-4 w-4 text-emerald-600" />
                     ) : (
