@@ -84,10 +84,13 @@ export function MetricBreakdownModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between gap-4">
-            <span className="flex-1 truncate">{title}</span>
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription className="mt-1">{description}</DialogDescription>
+            </div>
             {allowEdit && (
-              <div className="flex gap-2 flex-shrink-0">
+              <div className="flex gap-2 ml-4">
                 {isEditing ? (
                   <>
                     <Button size="sm" variant="outline" onClick={handleCancel}>
@@ -108,8 +111,7 @@ export function MetricBreakdownModal({
                 )}
               </div>
             )}
-          </DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4">
