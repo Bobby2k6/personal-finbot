@@ -1,6 +1,28 @@
 // Finance API service connected to FastAPI backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+// Backend availability check
+let backendAvailable: boolean | null = null;
+
+async function checkBackendAvailability(): Promise<boolean> {
+  if (backendAvailable !== null) {
+    return backendAvailable;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/docs`, {
+      method: 'HEAD',
+      mode: 'no-cors',
+    });
+    backendAvailable = true;
+    return true;
+  } catch (error) {
+    console.warn('Backend not available, falling back to demo mode');
+    backendAvailable = false;
+    return false;
+  }
+}
+
 export interface DashboardMetrics {
   monthly_income: number;
   total_expenses: number;
