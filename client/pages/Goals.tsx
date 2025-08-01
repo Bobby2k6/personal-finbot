@@ -112,8 +112,8 @@ export default function Goals() {
         <Card>
           <CardContent className="p-6 text-center">
             <Calendar className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">
-              ��{existingGoals.reduce((sum, goal) => sum + goal.targetAmount, 0).toLocaleString()}
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              ₹{existingGoals.reduce((sum, goal) => sum + goal.targetAmount, 0).toLocaleString()}
             </div>
             <div className="text-sm text-gray-600">Total Target</div>
           </CardContent>
