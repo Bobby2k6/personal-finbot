@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Wallet, MousePointer } from "lucide-react";
 import { MetricBreakdownModal } from "@/components/MetricBreakdownModal";
