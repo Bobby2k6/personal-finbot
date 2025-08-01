@@ -61,12 +61,12 @@ export function Layout({ children }: LayoutProps) {
         "fixed inset-0 z-50 lg:hidden",
         sidebarOpen ? "block" : "hidden"
       )}>
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed top-0 left-0 w-64 h-full bg-white shadow-xl">
-          <div className="flex items-center justify-between p-4 border-b">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed top-0 left-0 w-64 h-full bg-white dark:bg-gray-900 shadow-xl">
+          <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center gap-2">
               <DollarSign className="h-8 w-8 text-emerald-600" />
-              <span className="text-xl font-bold text-gray-900">FinanceBot</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">FinanceBot</span>
             </div>
             <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(false)}>
               <X className="h-5 w-5" />
@@ -82,8 +82,8 @@ export function Layout({ children }: LayoutProps) {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
