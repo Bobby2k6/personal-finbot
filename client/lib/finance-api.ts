@@ -23,33 +23,21 @@ function shouldUseDemo(): boolean {
 }
 
 async function checkBackendAvailability(): Promise<boolean> {
-  // For cloud environments, assume backend is not available unless explicitly configured
   if (backendAvailable !== null) {
     return backendAvailable;
   }
 
-  // Force demo mode if environment variable is set
-  if (import.meta.env.VITE_FORCE_DEMO_MODE === "true") {
-    console.log("Demo mode forced by environment variable");
+  // Check if we should use demo mode based on environment
+  if (shouldUseDemo()) {
+    console.log("Using demo mode based on environment detection");
     backendAvailable = false;
     return false;
   }
 
-  // Check if we're in a development environment with explicit backend URL
-  const isDevelopment = import.meta.env.DEV;
-  const hasCustomBackendUrl = import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== "http://localhost:8000";
-
-  if (!isDevelopment && !hasCustomBackendUrl) {
-    // In production/cloud without custom backend URL, assume demo mode
-    console.warn("No backend configured, using demo mode");
-    backendAvailable = false;
-    return false;
-  }
-
-  // Only try to connect if we're in development or have a custom backend URL
+  // Only attempt backend connection if we're not in a known demo environment
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1000); // 1 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 1000);
 
     const response = await fetch(`${API_BASE_URL}/docs`, {
       method: "HEAD",
@@ -57,16 +45,10 @@ async function checkBackendAvailability(): Promise<boolean> {
     });
 
     clearTimeout(timeoutId);
-
-    if (response.ok || response.type === "opaque") {
-      backendAvailable = true;
-      return true;
-    }
-
-    throw new Error("Backend not responding correctly");
+    backendAvailable = true;
+    return true;
   } catch (error) {
-    // Any error means backend is not available
-    console.warn("Backend not available, falling back to demo mode:", error);
+    console.warn("Backend connection failed, falling back to demo mode:", error);
     backendAvailable = false;
     return false;
   }
@@ -726,7 +708,7 @@ function generateBotResponse(userInput: string): string {
   }
 
   if (input.includes("expense") || input.includes("spending")) {
-    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
+    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n�� Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
   }
 
   if (input.includes("invest") || input.includes("investment")) {
