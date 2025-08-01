@@ -119,7 +119,7 @@ export default function ChatAssistant() {
                 "max-w-md p-3 rounded-lg text-sm",
                 message.sender === "user"
                   ? "bg-emerald-600 text-white rounded-br-sm"
-                  : "bg-white border rounded-bl-sm shadow-sm"
+                  : "bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-bl-sm shadow-sm text-gray-900 dark:text-white"
               )}
             >
               <div className="whitespace-pre-line">{message.content}</div>
