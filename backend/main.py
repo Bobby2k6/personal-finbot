@@ -1,3 +1,4 @@
+pip freeze > requirements.txt
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -6,7 +7,6 @@ import os
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext
-
 from .database import get_db, engine, Base
 from .models import User, Income, Expense, Investment, Goal
 from .schemas import (
