@@ -187,8 +187,8 @@ export default function Transactions() {
                     )}
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">{transaction.description}</div>
-                    <div className="text-sm text-gray-500">{transaction.category} • {transaction.date}</div>
+                    <div className="font-medium text-gray-900 dark:text-white">{transaction.description}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{transaction.category} • {transaction.date}</div>
                   </div>
                 </div>
                 <div className={`font-semibold ${transaction.type === "income" ? "text-emerald-600" : "text-red-600"}`}>
