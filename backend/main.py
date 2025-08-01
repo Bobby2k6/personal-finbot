@@ -4,7 +4,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 import os
 from datetime import datetime, timedelta
-import jwt
+from jose import jwt
 from passlib.context import CryptContext
 
 from .database import get_db, engine, Base
