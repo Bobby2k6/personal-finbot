@@ -498,10 +498,31 @@ export async function deleteGoal(id: number): Promise<void> {
 
 // Income API functions
 export async function getIncomes(): Promise<Income[]> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve([]), 300);
+    });
+  }
+
   return apiRequest<Income[]>('/api/income');
 }
 
 export async function createIncome(income: Omit<Income, "id">): Promise<Income> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    const newIncome: Income = {
+      ...income,
+      id: Date.now(),
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(newIncome), 500);
+    });
+  }
+
   return apiRequest<Income>('/api/income', {
     method: 'POST',
     body: JSON.stringify(income),
@@ -509,6 +530,14 @@ export async function createIncome(income: Omit<Income, "id">): Promise<Income> 
 }
 
 export async function deleteIncome(id: number): Promise<void> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+  }
+
   return apiRequest<void>(`/api/income/${id}`, {
     method: 'DELETE',
   });
@@ -516,10 +545,31 @@ export async function deleteIncome(id: number): Promise<void> {
 
 // Expense API functions
 export async function getExpenses(): Promise<Expense[]> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve([]), 300);
+    });
+  }
+
   return apiRequest<Expense[]>('/api/expenses');
 }
 
 export async function createExpense(expense: Omit<Expense, "id">): Promise<Expense> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    const newExpense: Expense = {
+      ...expense,
+      id: Date.now(),
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(newExpense), 500);
+    });
+  }
+
   return apiRequest<Expense>('/api/expenses', {
     method: 'POST',
     body: JSON.stringify(expense),
@@ -527,6 +577,14 @@ export async function createExpense(expense: Omit<Expense, "id">): Promise<Expen
 }
 
 export async function deleteExpense(id: number): Promise<void> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+  }
+
   return apiRequest<void>(`/api/expenses/${id}`, {
     method: 'DELETE',
   });
@@ -534,6 +592,22 @@ export async function deleteExpense(id: number): Promise<void> {
 
 // User settings API functions
 export async function updateUserSettings(settings: Partial<User>): Promise<User> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // For demo mode, just return the updated settings as if they were saved
+    const demoUser = localStorage.getItem('financebot-demo-user');
+    if (demoUser) {
+      const user = JSON.parse(demoUser);
+      const updatedUser = { ...user, ...settings };
+      localStorage.setItem('financebot-demo-user', JSON.stringify(updatedUser));
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(updatedUser), 300);
+      });
+    }
+    throw new Error('No demo user found');
+  }
+
   return apiRequest<User>('/api/users/settings', {
     method: 'PUT',
     body: JSON.stringify(settings),
