@@ -103,10 +103,10 @@ export default function Goals() {
         <Card>
           <CardContent className="p-6 text-center">
             <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {existingGoals.filter(g => g.status === "on_track").length}
             </div>
-            <div className="text-sm text-gray-600">On Track</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">On Track</div>
           </CardContent>
         </Card>
         <Card>
