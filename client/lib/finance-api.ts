@@ -10,6 +10,13 @@ async function checkBackendAvailability(): Promise<boolean> {
     return backendAvailable;
   }
 
+  // Force demo mode if environment variable is set
+  if (import.meta.env.VITE_FORCE_DEMO_MODE === "true") {
+    console.log("Demo mode forced by environment variable");
+    backendAvailable = false;
+    return false;
+  }
+
   // Check if we're in a development environment with explicit backend URL
   const isDevelopment = import.meta.env.DEV;
   const hasCustomBackendUrl = import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== "http://localhost:8000";
