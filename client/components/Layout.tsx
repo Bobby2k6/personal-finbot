@@ -98,10 +98,10 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex min-h-0 flex-1 flex-col bg-white shadow-sm">
-          <div className="flex items-center gap-2 p-6 border-b">
+        <div className="flex min-h-0 flex-1 flex-col bg-white dark:bg-gray-900 shadow-sm border-r dark:border-gray-700">
+          <div className="flex items-center gap-2 p-6 border-b dark:border-gray-700">
             <DollarSign className="h-8 w-8 text-emerald-600" />
-            <span className="text-xl font-bold text-gray-900">FinanceBot</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">FinanceBot</span>
           </div>
           <nav className="flex-1 p-4 space-y-2">
             {navigation.map((item) => {
@@ -113,8 +113,8 @@ export function Layout({ children }: LayoutProps) {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                   )}
                 >
                   <item.icon className="h-5 w-5" />
