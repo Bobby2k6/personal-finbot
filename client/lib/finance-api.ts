@@ -1,8 +1,26 @@
 // Finance API service connected to FastAPI backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-// Backend availability check
+// Backend availability check - default to demo mode for cloud environments
 let backendAvailable: boolean | null = null;
+
+// Helper function to determine if we should use demo mode
+function shouldUseDemo(): boolean {
+  // Force demo mode if environment variable is set
+  if (import.meta.env.VITE_FORCE_DEMO_MODE === "true") {
+    return true;
+  }
+
+  // Check if running in a cloud environment (like fly.dev)
+  const hostname = window.location.hostname;
+  if (hostname.includes('.fly.dev') || hostname.includes('.projects.builder.codes')) {
+    return true;
+  }
+
+  // Default to demo if no custom backend URL provided
+  const hasCustomBackendUrl = import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== "http://localhost:8000";
+  return !hasCustomBackendUrl;
+}
 
 async function checkBackendAvailability(): Promise<boolean> {
   // For cloud environments, assume backend is not available unless explicitly configured
