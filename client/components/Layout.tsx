@@ -2,6 +2,15 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import {
   LayoutDashboard,
   MessageCircle,
@@ -11,7 +20,13 @@ import {
   Menu,
   X,
   DollarSign,
+  User,
+  Settings,
+  LogOut,
+  Mail,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -19,6 +34,7 @@ const navigation = [
   { name: "Investments", href: "/investments", icon: TrendingUp },
   { name: "Income & Expenses", href: "/transactions", icon: PlusCircle },
   { name: "Goals", href: "/goals", icon: Target },
+  { name: "Contact", href: "/contact", icon: Mail },
 ];
 
 interface LayoutProps {
