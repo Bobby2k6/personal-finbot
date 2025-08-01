@@ -126,7 +126,7 @@ export default function ChatAssistant() {
               <div
                 className={cn(
                   "text-xs mt-1",
-                  message.sender === "user" ? "text-emerald-100" : "text-gray-500"
+                  message.sender === "user" ? "text-emerald-100" : "text-gray-500 dark:text-gray-400"
                 )}
               >
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
