@@ -5,26 +5,42 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 let backendAvailable: boolean | null = null;
 
 async function checkBackendAvailability(): Promise<boolean> {
+  // For cloud environments, assume backend is not available unless explicitly configured
   if (backendAvailable !== null) {
     return backendAvailable;
   }
 
+  // Check if we're in a development environment with explicit backend URL
+  const isDevelopment = import.meta.env.DEV;
+  const hasCustomBackendUrl = import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== "http://localhost:8000";
+
+  if (!isDevelopment && !hasCustomBackendUrl) {
+    // In production/cloud without custom backend URL, assume demo mode
+    console.warn("No backend configured, using demo mode");
+    backendAvailable = false;
+    return false;
+  }
+
+  // Only try to connect if we're in development or have a custom backend URL
   try {
-    // Use a simple timeout-based approach to check if backend is available
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 1000); // 1 second timeout
 
     const response = await fetch(`${API_BASE_URL}/docs`, {
       method: "HEAD",
       signal: controller.signal,
-      mode: "no-cors",
     });
 
     clearTimeout(timeoutId);
-    backendAvailable = true;
-    return true;
+
+    if (response.ok || response.type === "opaque") {
+      backendAvailable = true;
+      return true;
+    }
+
+    throw new Error("Backend not responding correctly");
   } catch (error) {
-    // Any error (network, CORS, timeout) means backend is not available
+    // Any error means backend is not available
     console.warn("Backend not available, falling back to demo mode:", error);
     backendAvailable = false;
     return false;
