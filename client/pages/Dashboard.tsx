@@ -130,7 +130,7 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">₹{metrics.totalSavings.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">₹{metrics.total_savings.toLocaleString()}</div>
             <p className="text-xs text-emerald-600 flex items-center gap-1 mt-1">
               <TrendingUp className="h-3 w-3" />
               +15% from last month
