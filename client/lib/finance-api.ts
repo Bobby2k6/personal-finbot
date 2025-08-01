@@ -255,8 +255,74 @@ export function logoutUser(): void {
   localStorage.removeItem('financebot-demo-user');
 }
 
+// Demo data for fallback mode
+const DEMO_DASHBOARD: DashboardMetrics = {
+  monthly_income: 75000,
+  total_expenses: 45000,
+  total_savings: 125000,
+  net_worth: 350000,
+  savings_rate: 40.0,
+};
+
+const DEMO_INVESTMENTS: Investment[] = [
+  {
+    id: 1,
+    name: "HDFC Top 100 Fund",
+    type: "Mutual Fund",
+    current_value: 15000,
+    initial_amount: 12000,
+    growth_percentage: 25.0,
+    is_positive: true,
+    date_enrolled: "2023-06-15",
+    description: "Large cap equity mutual fund for long-term growth",
+  },
+  {
+    id: 2,
+    name: "Reliance Industries",
+    type: "Stock",
+    current_value: 8500,
+    initial_amount: 9000,
+    growth_percentage: -5.6,
+    is_positive: false,
+    date_enrolled: "2023-09-20",
+    description: "Blue chip stock in energy and petrochemicals sector",
+  },
+];
+
+const DEMO_GOALS: FinancialGoal[] = [
+  {
+    id: 1,
+    name: "Emergency Fund",
+    target_amount: 300000,
+    current_saved: 125000,
+    deadline: "2024-12-31",
+    description: "Build 6 months of emergency fund",
+    status: "on_track",
+    progress_percentage: 41.7,
+  },
+  {
+    id: 2,
+    name: "Vacation to Europe",
+    target_amount: 200000,
+    current_saved: 85000,
+    deadline: "2024-08-15",
+    description: "Summer vacation with family",
+    status: "behind",
+    progress_percentage: 42.5,
+  },
+];
+
 // Dashboard API functions
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // Return demo data with a slight delay to simulate API call
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(DEMO_DASHBOARD), 300);
+    });
+  }
+
   return apiRequest<DashboardMetrics>('/api/dashboard');
 }
 
@@ -407,7 +473,7 @@ function generateBotResponse(userInput: string): string {
   }
   
   if (input.includes("expense") || input.includes("spending")) {
-    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
+    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n�� Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
   }
   
   if (input.includes("invest") || input.includes("investment")) {
