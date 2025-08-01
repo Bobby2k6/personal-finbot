@@ -121,7 +121,7 @@ export default function Investments() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Portfolio Overview</CardTitle>
-          <Button onClick={handleAddInvestment} disabled={user?.isDemo}>
+          <Button onClick={handleAddInvestment}>
             <Plus className="h-4 w-4 mr-2" />
             Add Investment
           </Button>
