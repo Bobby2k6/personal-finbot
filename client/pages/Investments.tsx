@@ -152,26 +152,78 @@ export default function Investments() {
           <CardTitle>Investment Holdings</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {investments.map((investment, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <div className="font-medium text-gray-900">{investment.name}</div>
-                  <div className="text-sm text-gray-500">{investment.type}</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-semibold text-gray-900">₹{investment.currentValue.toLocaleString()}</div>
-                  <div className={`text-sm flex items-center gap-1 ${investment.isPositive ? 'text-emerald-600' : 'text-red-600'}`}>
-                    {investment.isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                    {investment.isPositive ? '+' : ''}{investment.growth.toFixed(1)}%
-                    {investment.isPositive ? ' ✅' : ' ❌'}
+          <div className="grid grid-cols-1 gap-4">
+            {investments.map((investment) => (
+              <Card
+                key={investment.id}
+                className="cursor-pointer hover:shadow-md transition-shadow border-l-4"
+                style={{ borderLeftColor: investment.isPositive ? '#10b981' : '#ef4444' }}
+                onClick={() => handleViewDetails(investment)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 dark:text-white">{investment.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{investment.type}</div>
+                      <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                        Enrolled: {investment.dateEnrolled ? new Date(investment.dateEnrolled).toLocaleDateString() : 'N/A'}
+                      </div>
+                    </div>
+                    <div className="text-right mr-4">
+                      <div className="font-semibold text-gray-900 dark:text-white">₹{investment.currentValue.toLocaleString()}</div>
+                      <div className={`text-sm flex items-center gap-1 justify-end ${investment.isPositive ? 'text-emerald-600' : 'text-red-600'}`}>
+                        {investment.isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                        {investment.isPositive ? '+' : ''}{investment.growth.toFixed(1)}%
+                        {investment.isPositive ? ' ✅' : ' ❌'}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        ₹{investment.initialValue.toLocaleString()} initial
+                      </div>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                        <Button variant="ghost" size="sm">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(investment);
+                        }}>
+                          <Eye className="h-4 w-4 mr-2" />
+                          View Details
+                        </DropdownMenuItem>
+                        {!user?.isDemo && (
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteInvestment(investment.id);
+                            }}
+                            className="text-red-600"
+                          >
+                            <TrendingDown className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </CardContent>
       </Card>
+
+      {/* Investment Detail Modal */}
+      <InvestmentDetailModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        investment={selectedInvestment}
+        onSave={handleSaveInvestment}
+        onDelete={handleDeleteInvestment}
+      />
     </div>
   );
 }
