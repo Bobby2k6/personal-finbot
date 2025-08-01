@@ -4,12 +4,15 @@ import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Wallet, MousePointer }
 import { MetricBreakdownModal } from "@/components/MetricBreakdownModal";
 import { useAuth } from "@/contexts/AuthContext";
 
+import { getDashboardMetrics, DashboardMetrics } from "@/lib/finance-api";
+
 // Placeholder data - will be replaced with API calls
-const metrics = {
-  monthlyIncome: 75000,
-  totalExpenses: 45000,
-  totalSavings: 125000,
-  netWorth: 350000,
+const defaultMetrics: DashboardMetrics = {
+  monthly_income: 75000,
+  total_expenses: 45000,
+  total_savings: 125000,
+  net_worth: 350000,
+  savings_rate: 40.0,
 };
 
 const expenseData = [
