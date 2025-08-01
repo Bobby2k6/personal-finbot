@@ -48,26 +48,48 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user session
-    const storedUser = localStorage.getItem("financebot-user");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error parsing stored user:", error);
-        localStorage.removeItem("financebot-user");
+    const initAuth = async () => {
+      const token = localStorage.getItem("financebot-token");
+      if (token) {
+        try {
+          const userData = await getCurrentUser();
+          setUser({
+            id: userData.id,
+            email: userData.email,
+            name: userData.name,
+            familyMode: userData.family_mode,
+            preferred_currency: userData.preferred_currency,
+            theme_mode: userData.theme_mode,
+            isDemo: false,
+          });
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          localStorage.removeItem("financebot-token");
+          // Set demo user as fallback
+          setUser({
+            id: 0,
+            email: "demo@example.com",
+            name: "Saif",
+            isDemo: true,
+            familyMode: false,
+            preferred_currency: "INR",
+          });
+        }
+      } else {
+        // Set demo user if no token
+        setUser({
+          id: 0,
+          email: "demo@example.com",
+          name: "Saif",
+          isDemo: true,
+          familyMode: false,
+          preferred_currency: "INR",
+        });
       }
-    } else {
-      // Set demo user if no user is stored
-      setUser({
-        id: "demo",
-        email: "demo@example.com",
-        name: "Saif",
-        isDemo: true,
-        familyMode: false,
-      });
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    initAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
