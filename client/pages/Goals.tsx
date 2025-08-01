@@ -191,8 +191,8 @@ export default function Goals() {
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{goal.title}</h3>
-                    <p className="text-sm text-gray-600">{goal.description}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{goal.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{goal.description}</p>
                   </div>
                   <Badge className={getStatusColor(goal.status)}>
                     {getStatusText(goal.status)}
