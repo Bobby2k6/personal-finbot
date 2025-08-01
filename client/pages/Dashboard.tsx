@@ -195,6 +195,49 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Breakdown Modals */}
+      <MetricBreakdownModal
+        open={selectedMetric === 'income'}
+        onOpenChange={(open) => !open && setSelectedMetric(null)}
+        title="Monthly Income"
+        description="Breakdown of your monthly income sources"
+        items={incomeBreakdown}
+        onSave={(items) => handleSaveBreakdown('income', items)}
+      />
+
+      <MetricBreakdownModal
+        open={selectedMetric === 'expenses'}
+        onOpenChange={(open) => !open && setSelectedMetric(null)}
+        title="Total Expenses"
+        description="Breakdown of your monthly expenses"
+        items={expenseData.map(expense => ({
+          id: expense.category.toLowerCase(),
+          label: expense.category,
+          amount: expense.amount,
+          editable: true,
+        }))}
+        onSave={(items) => handleSaveBreakdown('expenses', items)}
+      />
+
+      <MetricBreakdownModal
+        open={selectedMetric === 'savings'}
+        onOpenChange={(open) => !open && setSelectedMetric(null)}
+        title="Total Savings"
+        description="Breakdown of your savings accounts and funds"
+        items={savingsBreakdown}
+        onSave={(items) => handleSaveBreakdown('savings', items)}
+      />
+
+      <MetricBreakdownModal
+        open={selectedMetric === 'networth'}
+        onOpenChange={(open) => !open && setSelectedMetric(null)}
+        title="Net Worth"
+        description="Assets and liabilities that make up your net worth"
+        items={netWorthBreakdown}
+        onSave={(items) => handleSaveBreakdown('networth', items)}
+        allowEdit={true}
+      />
     </div>
   );
 }
