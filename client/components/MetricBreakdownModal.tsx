@@ -87,7 +87,9 @@ export function MetricBreakdownModal({
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <DialogTitle>{title}</DialogTitle>
-              <DialogDescription className="mt-1">{description}</DialogDescription>
+              <DialogDescription className="mt-1">
+                {description}
+              </DialogDescription>
             </div>
             {allowEdit && (
               <div className="flex gap-2 ml-4">
