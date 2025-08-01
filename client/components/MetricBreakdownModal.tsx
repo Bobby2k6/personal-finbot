@@ -86,7 +86,7 @@ export function MetricBreakdownModal({
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {title}
-            {allowEdit && !user?.isDemo && (
+            {allowEdit && (
               <div className="flex gap-2">
                 {isEditing ? (
                   <>
