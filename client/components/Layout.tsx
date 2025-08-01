@@ -44,6 +44,15 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const getPageTitle = () => {
+    const currentPage = navigation.find(item => item.href === location.pathname);
+    if (location.pathname === "/" && user) {
+      return `${user.name}'s Dashboard`;
+    }
+    return currentPage?.name || "Dashboard";
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
