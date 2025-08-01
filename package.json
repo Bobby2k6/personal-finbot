@@ -12,6 +12,9 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:backend": "cd backend && python setup.py",
+    "backend:setup": "cd backend && python setup.py",
+    "backend:run": "cd backend && python -m uvicorn main:app --reload",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
