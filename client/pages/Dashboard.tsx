@@ -194,15 +194,15 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
                 <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Total Income</span>
-                <span className="text-sm font-bold text-emerald-900 dark:text-emerald-200">₹{metrics.monthlyIncome.toLocaleString()}</span>
+                <span className="text-sm font-bold text-emerald-900 dark:text-emerald-200">₹{metrics.monthly_income.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
                 <span className="text-sm font-medium text-red-700 dark:text-red-300">Total Expenses</span>
-                <span className="text-sm font-bold text-red-900 dark:text-red-200">₹{metrics.totalExpenses.toLocaleString()}</span>
+                <span className="text-sm font-bold text-red-900 dark:text-red-200">₹{metrics.total_expenses.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                 <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Net Savings</span>
-                <span className="text-sm font-bold text-blue-900 dark:text-blue-200">₹{(metrics.monthlyIncome - metrics.totalExpenses).toLocaleString()}</span>
+                <span className="text-sm font-bold text-blue-900 dark:text-blue-200">₹{(metrics.monthly_income - metrics.total_expenses).toLocaleString()}</span>
               </div>
               <div className="pt-4 border-t">
                 <div className="flex justify-between items-center">
