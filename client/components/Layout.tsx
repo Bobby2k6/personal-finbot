@@ -205,7 +205,7 @@ export function Layout({ children }: LayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="py-8">
+        <main className="py-8 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-4rem)]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {children}
           </div>
