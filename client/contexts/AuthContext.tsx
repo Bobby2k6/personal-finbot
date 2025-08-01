@@ -1,14 +1,23 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  loginUser as apiLogin,
+  registerUser as apiRegister,
+  getCurrentUser,
+  logoutUser as apiLogout,
+  updateUserSettings,
+  User as ApiUser
+} from "@/lib/finance-api";
 
 export interface User {
-  id: string;
+  id: number;
   email: string;
   name: string;
   profilePicture?: string;
   isDemo?: boolean;
   familyMode?: boolean;
   familyMembers?: User[];
-  currency?: string;
+  preferred_currency?: string;
+  theme_mode?: string;
 }
 
 interface AuthContextType {
