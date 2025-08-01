@@ -204,8 +204,8 @@ export function MetricBreakdownModal({
           )}
 
           {user?.isDemo && (
-            <div className="text-center text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-              Sign in to edit your financial data
+            <div className="text-center text-sm text-gray-500 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+              Demo Mode: Changes are saved locally only
             </div>
           )}
         </div>
