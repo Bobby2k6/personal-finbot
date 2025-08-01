@@ -185,7 +185,7 @@ export default function Dashboard() {
               </div>
               <div className="pt-4 border-t">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Savings Rate</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Savings Rate</span>
                   <span className="text-lg font-bold text-emerald-600">
                     {((metrics.monthlyIncome - metrics.totalExpenses) / metrics.monthlyIncome * 100).toFixed(1)}%
                   </span>
