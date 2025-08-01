@@ -96,8 +96,8 @@ export default function Goals() {
         <Card>
           <CardContent className="p-6 text-center">
             <Target className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">{existingGoals.length}</div>
-            <div className="text-sm text-gray-600">Active Goals</div>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{existingGoals.length}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Active Goals</div>
           </CardContent>
         </Card>
         <Card>
