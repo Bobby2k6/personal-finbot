@@ -328,10 +328,34 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
 
 // Investment API functions
 export async function getInvestments(): Promise<Investment[]> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve([...DEMO_INVESTMENTS]), 300);
+    });
+  }
+
   return apiRequest<Investment[]>('/api/investments');
 }
 
 export async function createInvestment(investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // Demo: create a new investment with calculated growth
+    const newInvestment: Investment = {
+      ...investment,
+      id: Date.now(),
+      growth_percentage: ((investment.current_value - investment.initial_amount) / investment.initial_amount) * 100,
+      is_positive: investment.current_value >= investment.initial_amount,
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(newInvestment), 500);
+    });
+  }
+
   return apiRequest<Investment>('/api/investments', {
     method: 'POST',
     body: JSON.stringify({
@@ -346,6 +370,22 @@ export async function createInvestment(investment: Omit<Investment, "id" | "grow
 }
 
 export async function updateInvestment(id: number, investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    // Demo: return updated investment
+    const updatedInvestment: Investment = {
+      ...investment,
+      id: id,
+      growth_percentage: ((investment.current_value - investment.initial_amount) / investment.initial_amount) * 100,
+      is_positive: investment.current_value >= investment.initial_amount,
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(updatedInvestment), 500);
+    });
+  }
+
   return apiRequest<Investment>(`/api/investments/${id}`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -360,6 +400,14 @@ export async function updateInvestment(id: number, investment: Omit<Investment, 
 }
 
 export async function deleteInvestment(id: number): Promise<void> {
+  const isBackendAvailable = await checkBackendAvailability();
+
+  if (!isBackendAvailable) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+  }
+
   return apiRequest<void>(`/api/investments/${id}`, {
     method: 'DELETE',
   });
@@ -473,7 +521,7 @@ function generateBotResponse(userInput: string): string {
   }
   
   if (input.includes("expense") || input.includes("spending")) {
-    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n�� Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
+    return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
   }
   
   if (input.includes("invest") || input.includes("investment")) {
