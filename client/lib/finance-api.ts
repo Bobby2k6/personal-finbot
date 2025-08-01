@@ -10,14 +10,22 @@ async function checkBackendAvailability(): Promise<boolean> {
   }
 
   try {
+    // Use a simple timeout-based approach to check if backend is available
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
     const response = await fetch(`${API_BASE_URL}/docs`, {
       method: "HEAD",
+      signal: controller.signal,
       mode: "no-cors",
     });
+
+    clearTimeout(timeoutId);
     backendAvailable = true;
     return true;
   } catch (error) {
-    console.warn("Backend not available, falling back to demo mode");
+    // Any error (network, CORS, timeout) means backend is not available
+    console.warn("Backend not available, falling back to demo mode:", error);
     backendAvailable = false;
     return false;
   }
