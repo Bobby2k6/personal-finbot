@@ -13,17 +13,19 @@ export interface ExpenseCategory {
   category: string;
   amount: number;
   percentage: number;
-  color: string;
+  color?: string;
 }
 
 export interface Investment {
-  id: string;
+  id: number;
   name: string;
   type: string;
-  currentValue: number;
-  initialValue: number;
-  growth: number;
-  isPositive: boolean;
+  current_value: number;
+  initial_amount: number;
+  growth_percentage: number;
+  is_positive: boolean;
+  date_enrolled: string;
+  description?: string;
 }
 
 export interface Transaction {
@@ -36,13 +38,14 @@ export interface Transaction {
 }
 
 export interface FinancialGoal {
-  id: string;
-  title: string;
-  targetAmount: number;
-  currentAmount: number;
+  id: number;
+  name: string;
+  target_amount: number;
+  current_saved: number;
   deadline: string;
   description: string;
   status: "on_track" | "behind" | "completed";
+  progress_percentage: number;
 }
 
 export interface ChatMessage {
@@ -50,6 +53,73 @@ export interface ChatMessage {
   content: string;
   sender: "user" | "bot";
   timestamp: Date;
+}
+
+export interface Income {
+  id: number;
+  source: string;
+  amount: number;
+  date: string;
+  notes?: string;
+}
+
+export interface Expense {
+  id: number;
+  category: string;
+  amount: number;
+  date: string;
+  description: string;
+  notes?: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  preferred_currency: string;
+  theme_mode: string;
+  family_mode: boolean;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+  user: User;
+}
+
+// API Helper functions
+function getAuthToken(): string | null {
+  return localStorage.getItem('financebot-token');
+}
+
+function getAuthHeaders(): HeadersInit {
+  const token = getAuthToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` }),
+  };
+}
+
+async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const config: RequestInit = {
+    headers: getAuthHeaders(),
+    ...options,
+  };
+
+  const response = await fetch(url, config);
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      // Token expired or invalid
+      localStorage.removeItem('financebot-token');
+      window.location.href = '/login';
+      throw new Error('Authentication required');
+    }
+    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
 }
 
 // Placeholder data
