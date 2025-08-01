@@ -71,9 +71,50 @@ const initialInvestments: Investment[] = [
 ];
 
 export default function Investments() {
+  const { user } = useAuth();
+  const [investments, setInvestments] = useState<Investment[]>(initialInvestments);
+  const [selectedInvestment, setSelectedInvestment] = useState<Investment | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const totalValue = investments.reduce((sum, inv) => sum + inv.currentValue, 0);
   const totalInitial = investments.reduce((sum, inv) => sum + inv.initialValue, 0);
   const totalGrowth = ((totalValue - totalInitial) / totalInitial) * 100;
+
+  const handleViewDetails = (investment: Investment) => {
+    setSelectedInvestment(investment);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveInvestment = (updatedInvestment: Investment) => {
+    setInvestments(prev =>
+      prev.map(inv => inv.id === updatedInvestment.id ? updatedInvestment : inv)
+    );
+    setIsModalOpen(false);
+    setSelectedInvestment(null);
+  };
+
+  const handleDeleteInvestment = (investmentId: string) => {
+    setInvestments(prev => prev.filter(inv => inv.id !== investmentId));
+    setIsModalOpen(false);
+    setSelectedInvestment(null);
+  };
+
+  const handleAddInvestment = () => {
+    const newInvestment: Investment = {
+      id: Date.now().toString(),
+      name: "New Investment",
+      type: "Stock",
+      currentValue: 0,
+      initialValue: 0,
+      growth: 0,
+      isPositive: true,
+      dateEnrolled: new Date().toISOString().split('T')[0],
+      description: "",
+    };
+    setInvestments(prev => [...prev, newInvestment]);
+    setSelectedInvestment(newInvestment);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
