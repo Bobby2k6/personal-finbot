@@ -122,98 +122,47 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
   return response.json();
 }
 
-// Placeholder data
-const PLACEHOLDER_METRICS: DashboardMetrics = {
-  monthlyIncome: 75000,
-  totalExpenses: 45000,
-  totalSavings: 125000,
-  netWorth: 350000,
-};
+// Authentication API functions
+export async function loginUser(email: string, password: string): Promise<AuthResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
 
-const PLACEHOLDER_EXPENSES: ExpenseCategory[] = [
-  { category: "Rent", amount: 20000, percentage: 44.4, color: "#8b5cf6" },
-  { category: "Food", amount: 12000, percentage: 26.7, color: "#06b6d4" },
-  { category: "Transport", amount: 8000, percentage: 17.8, color: "#10b981" },
-  { category: "Entertainment", amount: 3000, percentage: 6.7, color: "#f59e0b" },
-  { category: "Others", amount: 2000, percentage: 4.4, color: "#ef4444" },
-];
+  if (!response.ok) {
+    throw new Error('Invalid email or password');
+  }
 
-const PLACEHOLDER_INVESTMENTS: Investment[] = [
-  {
-    id: "1",
-    name: "HDFC Top 100 Fund",
-    type: "Mutual Fund",
-    currentValue: 15000,
-    initialValue: 12000,
-    growth: 25.0,
-    isPositive: true,
-  },
-  {
-    id: "2",
-    name: "Reliance Industries",
-    type: "Stock",
-    currentValue: 8500,
-    initialValue: 9000,
-    growth: -5.6,
-    isPositive: false,
-  },
-  {
-    id: "3",
-    name: "Bitcoin",
-    type: "Crypto",
-    currentValue: 12000,
-    initialValue: 10000,
-    growth: 20.0,
-    isPositive: true,
-  },
-  {
-    id: "4",
-    name: "Gold ETF",
-    type: "Gold",
-    currentValue: 5500,
-    initialValue: 5200,
-    growth: 5.8,
-    isPositive: true,
-  },
-];
+  const data = await response.json();
+  localStorage.setItem('financebot-token', data.access_token);
+  return data;
+}
 
-const PLACEHOLDER_TRANSACTIONS: Transaction[] = [
-  { id: "1", amount: -2500, category: "Food", description: "Grocery shopping", date: "2024-01-15", type: "expense" },
-  { id: "2", amount: 75000, category: "Salary", description: "Monthly salary", date: "2024-01-01", type: "income" },
-  { id: "3", amount: -800, category: "Transport", description: "Uber rides", date: "2024-01-14", type: "expense" },
-  { id: "4", amount: -1200, category: "Entertainment", description: "Movie tickets", date: "2024-01-13", type: "expense" },
-  { id: "5", amount: -20000, category: "Rent", description: "Monthly rent", date: "2024-01-01", type: "expense" },
-];
+export async function registerUser(email: string, password: string, name: string): Promise<AuthResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password, name }),
+  });
 
-const PLACEHOLDER_GOALS: FinancialGoal[] = [
-  {
-    id: "1",
-    title: "Emergency Fund",
-    targetAmount: 300000,
-    currentAmount: 125000,
-    deadline: "2024-12-31",
-    description: "Build 6 months of emergency fund",
-    status: "on_track",
-  },
-  {
-    id: "2",
-    title: "Vacation to Europe",
-    targetAmount: 200000,
-    currentAmount: 85000,
-    deadline: "2024-08-15",
-    description: "Summer vacation with family",
-    status: "behind",
-  },
-  {
-    id: "3",
-    title: "New Laptop",
-    targetAmount: 80000,
-    currentAmount: 65000,
-    deadline: "2024-03-30",
-    description: "Upgrade to MacBook Pro",
-    status: "on_track",
-  },
-];
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || 'Registration failed');
+  }
+
+  const data = await response.json();
+  localStorage.setItem('financebot-token', data.access_token);
+  return data;
+}
+
+export async function getCurrentUser(): Promise<User> {
+  return apiRequest<User>('/api/auth/me');
+}
+
+export function logoutUser(): void {
+  localStorage.removeItem('financebot-token');
+}
 
 // API Functions (currently returning placeholder data)
 // TODO: Replace these with actual API calls to FastAPI backend
