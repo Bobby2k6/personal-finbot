@@ -1,38 +1,72 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TrendingUp, TrendingDown, Plus, Eye, MoreVertical } from "lucide-react";
+import { InvestmentDetailModal } from "@/components/InvestmentDetailModal";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const investments = [
+interface Investment {
+  id: string;
+  name: string;
+  type: string;
+  currentValue: number;
+  initialValue: number;
+  growth: number;
+  isPositive: boolean;
+  dateEnrolled?: string;
+  description?: string;
+}
+
+const initialInvestments: Investment[] = [
   {
+    id: "1",
     name: "HDFC Top 100 Fund",
     type: "Mutual Fund",
     currentValue: 15000,
     initialValue: 12000,
     growth: 25.0,
     isPositive: true,
+    dateEnrolled: "2023-06-15",
+    description: "Large cap equity mutual fund for long-term growth",
   },
   {
+    id: "2",
     name: "Reliance Industries",
     type: "Stock",
     currentValue: 8500,
     initialValue: 9000,
     growth: -5.6,
     isPositive: false,
+    dateEnrolled: "2023-09-20",
+    description: "Blue chip stock in energy and petrochemicals sector",
   },
   {
+    id: "3",
     name: "Bitcoin",
     type: "Crypto",
     currentValue: 12000,
     initialValue: 10000,
     growth: 20.0,
     isPositive: true,
+    dateEnrolled: "2023-11-01",
+    description: "Digital cryptocurrency investment",
   },
   {
+    id: "4",
     name: "Gold ETF",
     type: "Gold",
     currentValue: 5500,
     initialValue: 5200,
     growth: 5.8,
     isPositive: true,
+    dateEnrolled: "2023-08-10",
+    description: "Gold exchange-traded fund for portfolio diversification",
   },
 ];
 
