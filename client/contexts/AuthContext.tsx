@@ -8,6 +8,7 @@ export interface User {
   isDemo?: boolean;
   familyMode?: boolean;
   familyMembers?: User[];
+  currency?: string;
 }
 
 interface AuthContextType {
