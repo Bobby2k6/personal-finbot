@@ -45,6 +45,24 @@ const netWorthBreakdown = [
 export default function Dashboard() {
   const { user } = useAuth();
   const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
+  const [metrics, setMetrics] = useState<DashboardMetrics>(defaultMetrics);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const data = await getDashboardMetrics();
+        setMetrics(data);
+      } catch (error) {
+        console.error('Failed to fetch dashboard metrics:', error);
+        // Keep default metrics if fetch fails
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMetrics();
+  }, []);
 
   const handleMetricClick = (metric: string) => {
     setSelectedMetric(metric);
