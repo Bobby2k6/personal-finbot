@@ -108,7 +108,7 @@ export default function ChatAssistant() {
           >
             {message.sender === "bot" && (
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
                   <Bot className="w-4 h-4 text-emerald-600" />
                 </div>
               </div>
