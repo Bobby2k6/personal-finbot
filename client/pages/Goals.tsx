@@ -201,23 +201,23 @@ export default function Goals() {
                 
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Progress</span>
-                    <span className="text-sm font-medium">{progress.toFixed(1)}%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">Progress</span>
+                    <span className="text-sm font-medium dark:text-white">{progress.toFixed(1)}%</span>
                   </div>
-                  
+
                   <Progress value={progress} className="h-3" />
-                  
+
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-600">
+                    <span className="text-gray-600 dark:text-gray-400">
                       ₹{goal.currentAmount.toLocaleString()} of ₹{goal.targetAmount.toLocaleString()}
                     </span>
-                    <span className="text-gray-600">
+                    <span className="text-gray-600 dark:text-gray-400">
                       {daysRemaining > 0 ? `${daysRemaining} days left` : "Overdue"}
                     </span>
                   </div>
-                  
-                  <div className="flex justify-between items-center pt-2 border-t">
-                    <span className="text-sm text-gray-600">Monthly target to achieve goal:</span>
+
+                  <div className="flex justify-between items-center pt-2 border-t dark:border-gray-700">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">Monthly target to achieve goal:</span>
                     <span className="text-sm font-semibold text-emerald-600">
                       ₹{Math.ceil((goal.targetAmount - goal.currentAmount) / Math.max(daysRemaining / 30, 1)).toLocaleString()}/month
                     </span>
