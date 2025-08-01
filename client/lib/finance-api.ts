@@ -164,96 +164,130 @@ export function logoutUser(): void {
   localStorage.removeItem('financebot-token');
 }
 
-// API Functions (currently returning placeholder data)
-// TODO: Replace these with actual API calls to FastAPI backend
-
+// Dashboard API functions
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/dashboard/metrics');
-  // return response.json();
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(PLACEHOLDER_METRICS), 500);
-  });
+  return apiRequest<DashboardMetrics>('/api/dashboard');
 }
 
-export async function getExpenseData(): Promise<ExpenseCategory[]> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/expenses/breakdown');
-  // return response.json();
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(PLACEHOLDER_EXPENSES), 500);
-  });
-}
-
+// Investment API functions
 export async function getInvestments(): Promise<Investment[]> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/investments');
-  // return response.json();
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(PLACEHOLDER_INVESTMENTS), 500);
+  return apiRequest<Investment[]>('/api/investments');
+}
+
+export async function createInvestment(investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+  return apiRequest<Investment>('/api/investments', {
+    method: 'POST',
+    body: JSON.stringify({
+      type: investment.type,
+      name: investment.name,
+      initial_amount: investment.initial_amount,
+      current_value: investment.current_value,
+      date_enrolled: investment.date_enrolled,
+      description: investment.description,
+    }),
   });
 }
 
-export async function getTransactions(): Promise<Transaction[]> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/transactions');
-  // return response.json();
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(PLACEHOLDER_TRANSACTIONS), 500);
+export async function updateInvestment(id: number, investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+  return apiRequest<Investment>(`/api/investments/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      type: investment.type,
+      name: investment.name,
+      initial_amount: investment.initial_amount,
+      current_value: investment.current_value,
+      date_enrolled: investment.date_enrolled,
+      description: investment.description,
+    }),
   });
 }
 
-export async function addTransaction(transaction: Omit<Transaction, "id">): Promise<Transaction> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/transactions', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(transaction)
-  // });
-  // return response.json();
-  
-  const newTransaction: Transaction = {
-    ...transaction,
-    id: Date.now().toString(),
-  };
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(newTransaction), 500);
+export async function deleteInvestment(id: number): Promise<void> {
+  return apiRequest<void>(`/api/investments/${id}`, {
+    method: 'DELETE',
   });
 }
 
+// Goals API functions
 export async function getGoals(): Promise<FinancialGoal[]> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/goals');
-  // return response.json();
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(PLACEHOLDER_GOALS), 500);
+  return apiRequest<FinancialGoal[]>('/api/goals');
+}
+
+export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+  return apiRequest<FinancialGoal>('/api/goals', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: goal.name,
+      target_amount: goal.target_amount,
+      current_saved: goal.current_saved,
+      deadline: goal.deadline,
+      description: goal.description,
+      status: goal.status,
+    }),
   });
 }
 
-export async function addGoal(goal: Omit<FinancialGoal, "id" | "currentAmount" | "status">): Promise<FinancialGoal> {
-  // TODO: Replace with actual API call
-  // const response = await fetch('/api/goals', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(goal)
-  // });
-  // return response.json();
-  
-  const newGoal: FinancialGoal = {
-    ...goal,
-    id: Date.now().toString(),
-    currentAmount: 0,
-    status: "on_track",
-  };
-  
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(newGoal), 500);
+export async function updateGoal(id: number, goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+  return apiRequest<FinancialGoal>(`/api/goals/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      name: goal.name,
+      target_amount: goal.target_amount,
+      current_saved: goal.current_saved,
+      deadline: goal.deadline,
+      description: goal.description,
+      status: goal.status,
+    }),
+  });
+}
+
+export async function deleteGoal(id: number): Promise<void> {
+  return apiRequest<void>(`/api/goals/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+// Income API functions
+export async function getIncomes(): Promise<Income[]> {
+  return apiRequest<Income[]>('/api/income');
+}
+
+export async function createIncome(income: Omit<Income, "id">): Promise<Income> {
+  return apiRequest<Income>('/api/income', {
+    method: 'POST',
+    body: JSON.stringify(income),
+  });
+}
+
+export async function deleteIncome(id: number): Promise<void> {
+  return apiRequest<void>(`/api/income/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+// Expense API functions
+export async function getExpenses(): Promise<Expense[]> {
+  return apiRequest<Expense[]>('/api/expenses');
+}
+
+export async function createExpense(expense: Omit<Expense, "id">): Promise<Expense> {
+  return apiRequest<Expense>('/api/expenses', {
+    method: 'POST',
+    body: JSON.stringify(expense),
+  });
+}
+
+export async function deleteExpense(id: number): Promise<void> {
+  return apiRequest<void>(`/api/expenses/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+// User settings API functions
+export async function updateUserSettings(settings: Partial<User>): Promise<User> {
+  return apiRequest<User>('/api/users/settings', {
+    method: 'PUT',
+    body: JSON.stringify(settings),
   });
 }
 
