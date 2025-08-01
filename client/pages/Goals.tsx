@@ -115,7 +115,7 @@ export default function Goals() {
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               ₹{existingGoals.reduce((sum, goal) => sum + goal.targetAmount, 0).toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600">Total Target</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Total Target</div>
           </CardContent>
         </Card>
       </div>
