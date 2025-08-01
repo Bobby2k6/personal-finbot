@@ -49,12 +49,12 @@ export function InvestmentDetailModal({
   const isNewInvestment = investment && investment.name === "New Investment" && investment.currentValue === 0;
 
   // Auto-enter edit mode for new investments
-  useState(() => {
+  useEffect(() => {
     if (isNewInvestment && !isEditing) {
       setIsEditing(true);
       setEditData(investment);
     }
-  });
+  }, [investment, isNewInvestment, isEditing]);
 
   if (!investment && !isEditing) return null;
 
