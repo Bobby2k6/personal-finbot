@@ -1,11 +1,12 @@
-// Finance API service with placeholder data
-// TODO: Replace with actual API endpoints when backend is ready
+// Finance API service connected to FastAPI backend
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export interface DashboardMetrics {
-  monthlyIncome: number;
-  totalExpenses: number;
-  totalSavings: number;
-  netWorth: number;
+  monthly_income: number;
+  total_expenses: number;
+  total_savings: number;
+  net_worth: number;
+  savings_rate: number;
 }
 
 export interface ExpenseCategory {
