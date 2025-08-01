@@ -45,6 +45,17 @@ export function InvestmentDetailModal({
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Investment | null>(null);
 
+  // Check if this is a new investment (id exists but values are defaults)
+  const isNewInvestment = investment && investment.name === "New Investment" && investment.currentValue === 0;
+
+  // Auto-enter edit mode for new investments
+  useState(() => {
+    if (isNewInvestment && !isEditing) {
+      setIsEditing(true);
+      setEditData(investment);
+    }
+  });
+
   if (!investment && !isEditing) return null;
 
   const handleEdit = () => {
