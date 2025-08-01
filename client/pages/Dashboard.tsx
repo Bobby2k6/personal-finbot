@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Wallet } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Wallet, MousePointer } from "lucide-react";
+import { MetricBreakdownModal } from "@/components/MetricBreakdownModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Placeholder data - will be replaced with API calls
 const metrics = {
@@ -15,6 +18,25 @@ const expenseData = [
   { category: "Transport", amount: 8000, percentage: 17.8, color: "#10b981" },
   { category: "Entertainment", amount: 3000, percentage: 6.7, color: "#f59e0b" },
   { category: "Others", amount: 2000, percentage: 4.4, color: "#ef4444" },
+];
+
+const incomeBreakdown = [
+  { id: "1", label: "Salary", amount: 65000, editable: true },
+  { id: "2", label: "Freelance", amount: 8000, editable: true },
+  { id: "3", label: "Investments", amount: 2000, editable: true },
+];
+
+const savingsBreakdown = [
+  { id: "1", label: "Emergency Fund", amount: 75000, editable: true },
+  { id: "2", label: "Retirement Fund", amount: 30000, editable: true },
+  { id: "3", label: "Short-term Savings", amount: 20000, editable: true },
+];
+
+const netWorthBreakdown = [
+  { id: "1", label: "Cash & Savings", amount: 125000, editable: false },
+  { id: "2", label: "Investments", amount: 185000, editable: false },
+  { id: "3", label: "Property", amount: 80000, editable: true },
+  { id: "4", label: "Debt", amount: -40000, editable: true },
 ];
 
 export default function Dashboard() {
