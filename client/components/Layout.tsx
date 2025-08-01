@@ -55,7 +55,7 @@ export function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Mobile menu */}
       <div className={cn(
         "fixed inset-0 z-50 lg:hidden",
