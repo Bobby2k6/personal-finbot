@@ -95,26 +95,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password })
-      // });
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const response = await apiLogin(email, password);
       const userData: User = {
-        id: Date.now().toString(),
-        email,
-        name: email.split('@')[0],
+        id: response.user.id,
+        email: response.user.email,
+        name: response.user.name,
+        familyMode: response.user.family_mode,
+        preferred_currency: response.user.preferred_currency,
+        theme_mode: response.user.theme_mode,
         isDemo: false,
-        familyMode: false,
       };
-      
       setUser(userData);
-      localStorage.setItem("financebot-user", JSON.stringify(userData));
     } catch (error) {
       throw new Error("Login failed");
     } finally {
@@ -125,26 +116,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signup = async (email: string, password: string, name: string) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/auth/signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password, name })
-      // });
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const response = await apiRegister(email, password, name);
       const userData: User = {
-        id: Date.now().toString(),
-        email,
-        name,
+        id: response.user.id,
+        email: response.user.email,
+        name: response.user.name,
+        familyMode: response.user.family_mode,
+        preferred_currency: response.user.preferred_currency,
+        theme_mode: response.user.theme_mode,
         isDemo: false,
-        familyMode: false,
       };
-      
       setUser(userData);
-      localStorage.setItem("financebot-user", JSON.stringify(userData));
     } catch (error) {
       throw new Error("Signup failed");
     } finally {
@@ -153,23 +135,39 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = () => {
+    apiLogout();
     setUser({
-      id: "demo",
+      id: 0,
       email: "demo@example.com",
       name: "Saif",
       isDemo: true,
       familyMode: false,
+      preferred_currency: "INR",
     });
-    localStorage.removeItem("financebot-user");
   };
 
-  const updateProfile = (updates: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...updates };
-      setUser(updatedUser);
-      if (!user.isDemo) {
-        localStorage.setItem("financebot-user", JSON.stringify(updatedUser));
+  const updateProfile = async (updates: Partial<User>) => {
+    if (user && !user.isDemo) {
+      try {
+        const updatedUser = await updateUserSettings({
+          name: updates.name,
+          preferred_currency: updates.preferred_currency,
+          theme_mode: updates.theme_mode,
+          family_mode: updates.familyMode,
+        });
+        setUser({
+          ...user,
+          name: updatedUser.name,
+          preferred_currency: updatedUser.preferred_currency,
+          theme_mode: updatedUser.theme_mode,
+          familyMode: updatedUser.family_mode,
+        });
+      } catch (error) {
+        console.error("Failed to update profile:", error);
       }
+    } else if (user) {
+      // For demo user, just update local state
+      setUser({ ...user, ...updates });
     }
   };
 
