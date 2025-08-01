@@ -13,12 +13,17 @@ function shouldUseDemo(): boolean {
 
   // Check if running in a cloud environment (like fly.dev)
   const hostname = window.location.hostname;
-  if (hostname.includes('.fly.dev') || hostname.includes('.projects.builder.codes')) {
+  if (
+    hostname.includes(".fly.dev") ||
+    hostname.includes(".projects.builder.codes")
+  ) {
     return true;
   }
 
   // Default to demo if no custom backend URL provided
-  const hasCustomBackendUrl = import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== "http://localhost:8000";
+  const hasCustomBackendUrl =
+    import.meta.env.VITE_API_URL &&
+    import.meta.env.VITE_API_URL !== "http://localhost:8000";
   return !hasCustomBackendUrl;
 }
 
@@ -48,7 +53,10 @@ async function checkBackendAvailability(): Promise<boolean> {
     backendAvailable = true;
     return true;
   } catch (error) {
-    console.warn("Backend connection failed, falling back to demo mode:", error);
+    console.warn(
+      "Backend connection failed, falling back to demo mode:",
+      error,
+    );
     backendAvailable = false;
     return false;
   }
