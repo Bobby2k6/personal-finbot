@@ -119,8 +119,12 @@ export default function Investments() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Portfolio Overview</CardTitle>
+          <Button onClick={handleAddInvestment} disabled={user?.isDemo}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Investment
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
