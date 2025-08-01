@@ -40,17 +40,36 @@ const netWorthBreakdown = [
 ];
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const [selectedMetric, setSelectedMetric] = useState<string | null>(null);
+
+  const handleMetricClick = (metric: string) => {
+    setSelectedMetric(metric);
+  };
+
+  const handleSaveBreakdown = (metric: string, items: any[]) => {
+    // TODO: Save to database
+    console.log(`Saving ${metric} breakdown:`, items);
+    setSelectedMetric(null);
+  };
+
   return (
     <div className="space-y-8">
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card
+          className="cursor-pointer hover:shadow-md transition-shadow group"
+          onClick={() => handleMetricClick('income')}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Monthly Income</CardTitle>
-            <DollarSign className="h-4 w-4 text-emerald-600" />
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Monthly Income</CardTitle>
+            <div className="flex items-center gap-1">
+              <MousePointer className="h-3 w-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <DollarSign className="h-4 w-4 text-emerald-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">₹{metrics.monthlyIncome.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">₹{metrics.monthlyIncome.toLocaleString()}</div>
             <p className="text-xs text-emerald-600 flex items-center gap-1 mt-1">
               <TrendingUp className="h-3 w-3" />
               +12% from last month
