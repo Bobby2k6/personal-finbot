@@ -24,7 +24,8 @@ export default function ChatAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm your personal finance assistant. I can help you track expenses, plan budgets, suggest investments, and answer financial questions. How can I help you today?",
+      content:
+        "Hello! I'm your personal finance assistant. I can help you track expenses, plan budgets, suggest investments, and answer financial questions. How can I help you today?",
       sender: "bot",
       timestamp: new Date(),
     },
@@ -51,7 +52,7 @@ export default function ChatAssistant() {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsTyping(true);
 
@@ -63,30 +64,30 @@ export default function ChatAssistant() {
         sender: "bot",
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, botResponse]);
+      setMessages((prev) => [...prev, botResponse]);
       setIsTyping(false);
     }, 1500);
   };
 
   const getBotResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
-    
+
     if (input.includes("save") || input.includes("saving")) {
       return "Based on your current income of ₹75,000 and expenses of ₹45,000, you can save ₹30,000 this month. That's a 40% savings rate - excellent work! Consider investing some of this in mutual funds or SIPs for long-term growth.";
     }
-    
+
     if (input.includes("expense") || input.includes("spending")) {
       return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
     }
-    
+
     if (input.includes("invest") || input.includes("investment")) {
       return "Here are some investment suggestions based on your profile:\n\n🔹 **Emergency Fund**: Build 6 months of expenses (₹2.7L) in a high-yield savings account\n🔹 **SIP in Equity Mutual Funds**: ₹15,000/month for long-term wealth building\n🔹 **ELSS Funds**: ₹12,500/month for tax saving under 80C\n🔹 **Gold ETF**: 5-10% allocation for diversification\n\nStart with index funds if you're a beginner. Would you like specific fund recommendations?";
     }
-    
+
     if (input.includes("budget") || input.includes("plan")) {
       return "Let me create a budget plan for you:\n\n**Income**: ₹75,000\n**Fixed Expenses**: ₹35,000 (Rent, utilities, insurance)\n**Variable Expenses**: ₹20,000 (Food, transport, entertainment)\n**Savings**: ₹20,000 (27% savings rate)\n\n**Recommendations**:\n• Try to reduce variable expenses by ₹5,000\n• Increase savings rate to 35-40%\n• Set up automatic transfers to savings\n\nWould you like help setting specific spending limits for each category?";
     }
-    
+
     return "I understand you're asking about your finances. I can help with budgeting, expense tracking, investment advice, and financial planning. Could you be more specific about what you'd like to know? For example, you could ask about your savings potential, expense breakdown, or investment options.";
   };
 
@@ -103,7 +104,7 @@ export default function ChatAssistant() {
             key={message.id}
             className={cn(
               "flex gap-3",
-              message.sender === "user" ? "justify-end" : "justify-start"
+              message.sender === "user" ? "justify-end" : "justify-start",
             )}
           >
             {message.sender === "bot" && (
@@ -113,23 +114,28 @@ export default function ChatAssistant() {
                 </div>
               </div>
             )}
-            
+
             <div
               className={cn(
                 "max-w-md p-3 rounded-lg text-sm",
                 message.sender === "user"
                   ? "bg-emerald-600 text-white rounded-br-sm"
-                  : "bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-bl-sm shadow-sm text-gray-900 dark:text-white"
+                  : "bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-bl-sm shadow-sm text-gray-900 dark:text-white",
               )}
             >
               <div className="whitespace-pre-line">{message.content}</div>
               <div
                 className={cn(
                   "text-xs mt-1",
-                  message.sender === "user" ? "text-emerald-100" : "text-gray-500 dark:text-gray-400"
+                  message.sender === "user"
+                    ? "text-emerald-100"
+                    : "text-gray-500 dark:text-gray-400",
                 )}
               >
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {message.timestamp.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </div>
             </div>
 
@@ -153,8 +159,14 @@ export default function ChatAssistant() {
             <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg rounded-bl-sm shadow-sm p-3 max-w-md">
               <div className="flex gap-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.1s" }}
+                ></div>
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
               </div>
             </div>
           </div>
@@ -166,7 +178,9 @@ export default function ChatAssistant() {
       {/* Sample Questions */}
       {messages.length === 1 && (
         <Card className="m-4 p-4 bg-gray-50">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Try asking:</h3>
+          <h3 className="text-sm font-medium text-gray-700 mb-3">
+            Try asking:
+          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {sampleQuestions.map((question, index) => (
               <Button
@@ -193,7 +207,10 @@ export default function ChatAssistant() {
             onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
             className="flex-1"
           />
-          <Button onClick={handleSendMessage} disabled={!inputValue.trim() || isTyping}>
+          <Button
+            onClick={handleSendMessage}
+            disabled={!inputValue.trim() || isTyping}
+          >
             <Send className="w-4 h-4" />
           </Button>
         </div>

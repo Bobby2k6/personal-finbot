@@ -1,11 +1,17 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import {
   loginUser as apiLogin,
   registerUser as apiRegister,
   getCurrentUser,
   logoutUser as apiLogout,
   updateUserSettings,
-  User as ApiUser
+  User as ApiUser,
 } from "@/lib/finance-api";
 
 export interface User {

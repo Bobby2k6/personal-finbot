@@ -43,11 +43,13 @@ npm run dev
 ### 3. Database Configuration
 
 #### Option A: SQLite (Development - Default)
+
 - No additional setup required
 - Database file created automatically
 - Perfect for local development
 
 #### Option B: PostgreSQL (Production)
+
 ```sql
 -- Create database and user
 CREATE DATABASE financebot;
@@ -56,6 +58,7 @@ GRANT ALL PRIVILEGES ON DATABASE financebot TO financebot_user;
 ```
 
 Update `backend/.env`:
+
 ```env
 DATABASE_URL=postgresql://financebot_user:your_password@localhost:5432/financebot
 ```
@@ -92,6 +95,7 @@ uvicorn main:app --reload
 The backend automatically creates these database tables:
 
 ### 👤 Users Table
+
 ```sql
 - id (Primary Key)
 - name
@@ -104,6 +108,7 @@ The backend automatically creates these database tables:
 ```
 
 ### 💰 Income Table
+
 ```sql
 - id (Primary Key)
 - user_id (Foreign Key)
@@ -115,6 +120,7 @@ The backend automatically creates these database tables:
 ```
 
 ### 💸 Expenses Table
+
 ```sql
 - id (Primary Key)
 - user_id (Foreign Key)
@@ -127,6 +133,7 @@ The backend automatically creates these database tables:
 ```
 
 ### 📈 Investments Table
+
 ```sql
 - id (Primary Key)
 - user_id (Foreign Key)
@@ -140,6 +147,7 @@ The backend automatically creates these database tables:
 ```
 
 ### 🎯 Goals Table
+
 ```sql
 - id (Primary Key)
 - user_id (Foreign Key)
@@ -164,25 +172,30 @@ The backend automatically creates these database tables:
 ## 🌐 API Endpoints Available
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user
 
 ### Dashboard
+
 - `GET /api/dashboard` - Complete dashboard data
 
 ### Financial Data
+
 - `GET/POST/DELETE /api/income` - Income management
 - `GET/POST/DELETE /api/expenses` - Expense management
 - `GET/POST/PUT/DELETE /api/investments` - Investment management
 - `GET/POST/PUT/DELETE /api/goals` - Goals management
 
 ### User Settings
+
 - `PUT /api/users/settings` - Update user preferences
 
 ## 🎨 Frontend Integration
 
 The React frontend now:
+
 - ✅ **Authenticates** with FastAPI backend
 - ✅ **Stores data** in PostgreSQL/SQLite database
 - ✅ **Real-time updates** when adding/editing data
@@ -200,10 +213,11 @@ The React frontend now:
 ## 📱 Testing the Integration
 
 1. **Start both servers**:
+
    ```bash
    # Terminal 1: Backend
    cd backend && python -m uvicorn main:app --reload
-   
+
    # Terminal 2: Frontend
    npm run dev
    ```
@@ -218,6 +232,7 @@ The React frontend now:
 ## 🚀 Production Deployment
 
 ### Backend (FastAPI)
+
 ```bash
 # Install production dependencies
 pip install gunicorn
@@ -227,6 +242,7 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
 ### Database (PostgreSQL)
+
 ```bash
 # Setup PostgreSQL database
 # Update DATABASE_URL in production
@@ -234,6 +250,7 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
 ### Frontend (React)
+
 ```bash
 # Build for production
 npm run build
@@ -244,15 +261,18 @@ npm run build
 ## 🐛 Troubleshooting
 
 ### Backend Issues
+
 - **Database connection**: Check `DATABASE_URL` in `.env`
 - **CORS errors**: Update `FRONTEND_URL` in backend `.env`
 - **Token errors**: Verify `SECRET_KEY` is set
 
 ### Frontend Issues
+
 - **API connection**: Check `VITE_API_URL` in frontend `.env`
 - **Login issues**: Ensure backend is running on correct port
 
 ### Common Commands
+
 ```bash
 # Check backend is running
 curl http://localhost:8000/docs
@@ -267,10 +287,12 @@ rm backend/financebot.db  # SQLite only
 ## 📚 API Documentation
 
 Once backend is running, visit:
+
 - **Interactive API docs**: http://localhost:8000/docs
 - **ReDoc documentation**: http://localhost:8000/redoc
 
 Your FinanceBot application now has a complete backend with:
+
 - ✅ **Secure user authentication**
 - ✅ **Persistent data storage**
 - ✅ **Real-time updates**

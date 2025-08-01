@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, TrendingDown, Plus, Eye, MoreVertical } from "lucide-react";
+import {
+  TrendingUp,
+  TrendingDown,
+  Plus,
+  Eye,
+  MoreVertical,
+} from "lucide-react";
 import { InvestmentDetailModal } from "@/components/InvestmentDetailModal";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -72,12 +78,20 @@ const initialInvestments: Investment[] = [
 
 export default function Investments() {
   const { user } = useAuth();
-  const [investments, setInvestments] = useState<Investment[]>(initialInvestments);
-  const [selectedInvestment, setSelectedInvestment] = useState<Investment | null>(null);
+  const [investments, setInvestments] =
+    useState<Investment[]>(initialInvestments);
+  const [selectedInvestment, setSelectedInvestment] =
+    useState<Investment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const totalValue = investments.reduce((sum, inv) => sum + inv.currentValue, 0);
-  const totalInitial = investments.reduce((sum, inv) => sum + inv.initialValue, 0);
+  const totalValue = investments.reduce(
+    (sum, inv) => sum + inv.currentValue,
+    0,
+  );
+  const totalInitial = investments.reduce(
+    (sum, inv) => sum + inv.initialValue,
+    0,
+  );
   const totalGrowth = ((totalValue - totalInitial) / totalInitial) * 100;
 
   const handleViewDetails = (investment: Investment) => {
@@ -86,15 +100,17 @@ export default function Investments() {
   };
 
   const handleSaveInvestment = (updatedInvestment: Investment) => {
-    setInvestments(prev =>
-      prev.map(inv => inv.id === updatedInvestment.id ? updatedInvestment : inv)
+    setInvestments((prev) =>
+      prev.map((inv) =>
+        inv.id === updatedInvestment.id ? updatedInvestment : inv,
+      ),
     );
     setIsModalOpen(false);
     setSelectedInvestment(null);
   };
 
   const handleDeleteInvestment = (investmentId: string) => {
-    setInvestments(prev => prev.filter(inv => inv.id !== investmentId));
+    setInvestments((prev) => prev.filter((inv) => inv.id !== investmentId));
     setIsModalOpen(false);
     setSelectedInvestment(null);
   };
@@ -108,10 +124,10 @@ export default function Investments() {
       initialValue: 0,
       growth: 0,
       isPositive: true,
-      dateEnrolled: new Date().toISOString().split('T')[0],
+      dateEnrolled: new Date().toISOString().split("T")[0],
       description: "",
     };
-    setInvestments(prev => [...prev, newInvestment]);
+    setInvestments((prev) => [...prev, newInvestment]);
     setSelectedInvestment(newInvestment);
     setIsModalOpen(true);
   };
@@ -129,19 +145,34 @@ export default function Investments() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-900">₹{totalValue.toLocaleString()}</div>
+              <div className="text-2xl font-bold text-blue-900">
+                ₹{totalValue.toLocaleString()}
+              </div>
               <div className="text-sm text-blue-600">Current Value</div>
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-gray-900">₹{totalInitial.toLocaleString()}</div>
+              <div className="text-2xl font-bold text-gray-900">
+                ₹{totalInitial.toLocaleString()}
+              </div>
               <div className="text-sm text-gray-600">Initial Investment</div>
             </div>
             <div className="text-center p-4 bg-emerald-50 rounded-lg">
-              <div className={`text-2xl font-bold flex items-center justify-center gap-1 ${totalGrowth >= 0 ? 'text-emerald-900' : 'text-red-900'}`}>
-                {totalGrowth >= 0 ? <TrendingUp className="h-5 w-5" /> : <TrendingDown className="h-5 w-5" />}
-                {totalGrowth >= 0 ? '+' : ''}{totalGrowth.toFixed(1)}%
+              <div
+                className={`text-2xl font-bold flex items-center justify-center gap-1 ${totalGrowth >= 0 ? "text-emerald-900" : "text-red-900"}`}
+              >
+                {totalGrowth >= 0 ? (
+                  <TrendingUp className="h-5 w-5" />
+                ) : (
+                  <TrendingDown className="h-5 w-5" />
+                )}
+                {totalGrowth >= 0 ? "+" : ""}
+                {totalGrowth.toFixed(1)}%
               </div>
-              <div className={`text-sm ${totalGrowth >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>Total Growth</div>
+              <div
+                className={`text-sm ${totalGrowth >= 0 ? "text-emerald-600" : "text-red-600"}`}
+              >
+                Total Growth
+              </div>
             </div>
           </div>
         </CardContent>
@@ -157,40 +188,67 @@ export default function Investments() {
               <Card
                 key={investment.id}
                 className="cursor-pointer hover:shadow-md transition-shadow border-l-4"
-                style={{ borderLeftColor: investment.isPositive ? '#10b981' : '#ef4444' }}
+                style={{
+                  borderLeftColor: investment.isPositive
+                    ? "#10b981"
+                    : "#ef4444",
+                }}
                 onClick={() => handleViewDetails(investment)}
               >
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <div className="font-medium text-gray-900 dark:text-white">{investment.name}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{investment.type}</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        {investment.name}
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {investment.type}
+                      </div>
                       <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                        Enrolled: {investment.dateEnrolled ? new Date(investment.dateEnrolled).toLocaleDateString() : 'N/A'}
+                        Enrolled:{" "}
+                        {investment.dateEnrolled
+                          ? new Date(
+                              investment.dateEnrolled,
+                            ).toLocaleDateString()
+                          : "N/A"}
                       </div>
                     </div>
                     <div className="text-right mr-4">
-                      <div className="font-semibold text-gray-900 dark:text-white">₹{investment.currentValue.toLocaleString()}</div>
-                      <div className={`text-sm flex items-center gap-1 justify-end ${investment.isPositive ? 'text-emerald-600' : 'text-red-600'}`}>
-                        {investment.isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                        {investment.isPositive ? '+' : ''}{investment.growth.toFixed(1)}%
-                        {investment.isPositive ? ' ✅' : ' ❌'}
+                      <div className="font-semibold text-gray-900 dark:text-white">
+                        ₹{investment.currentValue.toLocaleString()}
+                      </div>
+                      <div
+                        className={`text-sm flex items-center gap-1 justify-end ${investment.isPositive ? "text-emerald-600" : "text-red-600"}`}
+                      >
+                        {investment.isPositive ? (
+                          <TrendingUp className="h-3 w-3" />
+                        ) : (
+                          <TrendingDown className="h-3 w-3" />
+                        )}
+                        {investment.isPositive ? "+" : ""}
+                        {investment.growth.toFixed(1)}%
+                        {investment.isPositive ? " ✅" : " ❌"}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400">
                         ₹{investment.initialValue.toLocaleString()} initial
                       </div>
                     </div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                      <DropdownMenuTrigger
+                        asChild
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <Button variant="ghost" size="sm">
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={(e) => {
-                          e.stopPropagation();
-                          handleViewDetails(investment);
-                        }}>
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleViewDetails(investment);
+                          }}
+                        >
                           <Eye className="h-4 w-4 mr-2" />
                           View Details
                         </DropdownMenuItem>

@@ -96,26 +96,37 @@ export default function Goals() {
         <Card>
           <CardContent className="p-6 text-center">
             <Target className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{existingGoals.length}</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Active Goals</div>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {existingGoals.length}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Active Goals
+            </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-6 text-center">
             <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              {existingGoals.filter(g => g.status === "on_track").length}
+              {existingGoals.filter((g) => g.status === "on_track").length}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">On Track</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              On Track
+            </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-6 text-center">
             <Calendar className="h-8 w-8 text-purple-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              ₹{existingGoals.reduce((sum, goal) => sum + goal.targetAmount, 0).toLocaleString()}
+              ₹
+              {existingGoals
+                .reduce((sum, goal) => sum + goal.targetAmount, 0)
+                .toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Total Target</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Total Target
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -124,7 +135,10 @@ export default function Goals() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Financial Goals</CardTitle>
-          <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "outline" : "default"}>
+          <Button
+            onClick={() => setShowForm(!showForm)}
+            variant={showForm ? "outline" : "default"}
+          >
             <Plus className="h-4 w-4 mr-2" />
             {showForm ? "Cancel" : "Add Goal"}
           </Button>
@@ -139,7 +153,9 @@ export default function Goals() {
                     id="title"
                     placeholder="e.g., Buy a car"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -150,7 +166,9 @@ export default function Goals() {
                     type="number"
                     placeholder="Enter target amount"
                     value={formData.targetAmount}
-                    onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, targetAmount: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -160,7 +178,9 @@ export default function Goals() {
                     id="deadline"
                     type="date"
                     value={formData.deadline}
-                    onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, deadline: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -170,11 +190,15 @@ export default function Goals() {
                     id="description"
                     placeholder="Brief description"
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full">Create Goal</Button>
+              <Button type="submit" className="w-full">
+                Create Goal
+              </Button>
             </form>
           </CardContent>
         )}
@@ -183,43 +207,67 @@ export default function Goals() {
       {/* Existing Goals */}
       <div className="space-y-4">
         {existingGoals.map((goal) => {
-          const progress = calculateProgress(goal.currentAmount, goal.targetAmount);
-          const daysRemaining = Math.ceil((new Date(goal.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-          
+          const progress = calculateProgress(
+            goal.currentAmount,
+            goal.targetAmount,
+          );
+          const daysRemaining = Math.ceil(
+            (new Date(goal.deadline).getTime() - new Date().getTime()) /
+              (1000 * 60 * 60 * 24),
+          );
+
           return (
             <Card key={goal.id}>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{goal.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{goal.description}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {goal.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {goal.description}
+                    </p>
                   </div>
                   <Badge className={getStatusColor(goal.status)}>
                     {getStatusText(goal.status)}
                   </Badge>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Progress</span>
-                    <span className="text-sm font-medium dark:text-white">{progress.toFixed(1)}%</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Progress
+                    </span>
+                    <span className="text-sm font-medium dark:text-white">
+                      {progress.toFixed(1)}%
+                    </span>
                   </div>
 
                   <Progress value={progress} className="h-3" />
 
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600 dark:text-gray-400">
-                      ₹{goal.currentAmount.toLocaleString()} of ₹{goal.targetAmount.toLocaleString()}
+                      ₹{goal.currentAmount.toLocaleString()} of ₹
+                      {goal.targetAmount.toLocaleString()}
                     </span>
                     <span className="text-gray-600 dark:text-gray-400">
-                      {daysRemaining > 0 ? `${daysRemaining} days left` : "Overdue"}
+                      {daysRemaining > 0
+                        ? `${daysRemaining} days left`
+                        : "Overdue"}
                     </span>
                   </div>
 
                   <div className="flex justify-between items-center pt-2 border-t dark:border-gray-700">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Monthly target to achieve goal:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Monthly target to achieve goal:
+                    </span>
                     <span className="text-sm font-semibold text-emerald-600">
-                      ₹{Math.ceil((goal.targetAmount - goal.currentAmount) / Math.max(daysRemaining / 30, 1)).toLocaleString()}/month
+                      ₹
+                      {Math.ceil(
+                        (goal.targetAmount - goal.currentAmount) /
+                          Math.max(daysRemaining / 30, 1),
+                      ).toLocaleString()}
+                      /month
                     </span>
                   </div>
                 </div>

@@ -47,7 +47,9 @@ export function Layout({ children }: LayoutProps) {
   const { user, logout } = useAuth();
 
   const getPageTitle = () => {
-    const currentPage = navigation.find(item => item.href === location.pathname);
+    const currentPage = navigation.find(
+      (item) => item.href === location.pathname,
+    );
     if (location.pathname === "/" && user) {
       return `${user.name}'s Dashboard`;
     }
@@ -57,18 +59,29 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Mobile menu */}
-      <div className={cn(
-        "fixed inset-0 z-50 lg:hidden",
-        sidebarOpen ? "block" : "hidden"
-      )}>
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75" onClick={() => setSidebarOpen(false)} />
+      <div
+        className={cn(
+          "fixed inset-0 z-50 lg:hidden",
+          sidebarOpen ? "block" : "hidden",
+        )}
+      >
+        <div
+          className="fixed inset-0 bg-gray-600 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75"
+          onClick={() => setSidebarOpen(false)}
+        />
         <div className="fixed top-0 left-0 w-64 h-full bg-white dark:bg-gray-900 shadow-xl">
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center gap-2">
               <DollarSign className="h-8 w-8 text-emerald-600" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">FinanceBot</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">
+                FinanceBot
+              </span>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(false)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSidebarOpen(false)}
+            >
               <X className="h-5 w-5" />
             </Button>
           </div>
@@ -83,7 +96,7 @@ export function Layout({ children }: LayoutProps) {
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
                       ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800",
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -101,7 +114,9 @@ export function Layout({ children }: LayoutProps) {
         <div className="flex min-h-0 flex-1 flex-col bg-white dark:bg-gray-900 shadow-sm border-r dark:border-gray-700">
           <div className="flex items-center gap-2 p-6 border-b dark:border-gray-700">
             <DollarSign className="h-8 w-8 text-emerald-600" />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">FinanceBot</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
+              FinanceBot
+            </span>
           </div>
           <nav className="flex-1 p-4 space-y-2">
             {navigation.map((item) => {
@@ -114,7 +129,7 @@ export function Layout({ children }: LayoutProps) {
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     isActive
                       ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800",
                   )}
                 >
                   <item.icon className="h-5 w-5" />
@@ -150,11 +165,18 @@ export function Layout({ children }: LayoutProps) {
               {/* User Profile Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user?.profilePicture} />
                       <AvatarFallback className="text-xs">
-                        {user?.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
+                        {user?.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -162,12 +184,14 @@ export function Layout({ children }: LayoutProps) {
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-1 leading-none">
-                      <p className="font-medium">{user?.name || 'User'}</p>
+                      <p className="font-medium">{user?.name || "User"}</p>
                       <p className="w-[200px] truncate text-sm text-muted-foreground">
-                        {user?.email || 'user@example.com'}
+                        {user?.email || "user@example.com"}
                       </p>
                       {user?.isDemo && (
-                        <Badge variant="secondary" className="w-fit">Demo</Badge>
+                        <Badge variant="secondary" className="w-fit">
+                          Demo
+                        </Badge>
                       )}
                     </div>
                   </div>

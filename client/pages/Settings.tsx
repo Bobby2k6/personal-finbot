@@ -1,22 +1,34 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/components/ThemeProvider";
-import { 
-  Settings as SettingsIcon, 
-  Palette, 
-  Bell, 
-  Shield, 
+import {
+  Settings as SettingsIcon,
+  Palette,
+  Bell,
+  Shield,
   Download,
   Upload,
   Trash2,
-  Save
+  Save,
 } from "lucide-react";
 
 export default function Settings() {
@@ -39,7 +51,7 @@ export default function Settings() {
       language: "en",
       dateFormat: "DD/MM/YYYY",
       budgetAlerts: true,
-    }
+    },
   });
 
   const handleSaveSettings = () => {
@@ -69,7 +81,9 @@ export default function Settings() {
       {/* Header */}
       <div className="flex items-center gap-2">
         <SettingsIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Settings
+        </h1>
       </div>
 
       {/* Theme Settings */}
@@ -110,12 +124,14 @@ export default function Settings() {
                 Default currency for displaying amounts
               </p>
             </div>
-            <Select 
-              value={settings.preferences.currency} 
-              onValueChange={(value) => setSettings(prev => ({
-                ...prev,
-                preferences: { ...prev.preferences, currency: value }
-              }))}
+            <Select
+              value={settings.preferences.currency}
+              onValueChange={(value) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  preferences: { ...prev.preferences, currency: value },
+                }))
+              }
               disabled={user?.isDemo}
             >
               <SelectTrigger className="w-32">
@@ -154,10 +170,12 @@ export default function Settings() {
             <Switch
               id="email-notifications"
               checked={settings.notifications.email}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                notifications: { ...prev.notifications, email: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  notifications: { ...prev.notifications, email: checked },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -172,10 +190,15 @@ export default function Settings() {
             <Switch
               id="monthly-reports"
               checked={settings.notifications.monthlyReports}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                notifications: { ...prev.notifications, monthlyReports: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  notifications: {
+                    ...prev.notifications,
+                    monthlyReports: checked,
+                  },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -190,10 +213,15 @@ export default function Settings() {
             <Switch
               id="goal-reminders"
               checked={settings.notifications.goalReminders}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                notifications: { ...prev.notifications, goalReminders: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  notifications: {
+                    ...prev.notifications,
+                    goalReminders: checked,
+                  },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -208,10 +236,12 @@ export default function Settings() {
             <Switch
               id="budget-alerts"
               checked={settings.preferences.budgetAlerts}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                preferences: { ...prev.preferences, budgetAlerts: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  preferences: { ...prev.preferences, budgetAlerts: checked },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -240,10 +270,12 @@ export default function Settings() {
             <Switch
               id="profile-visible"
               checked={settings.privacy.profileVisible}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                privacy: { ...prev.privacy, profileVisible: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  privacy: { ...prev.privacy, profileVisible: checked },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -258,10 +290,12 @@ export default function Settings() {
             <Switch
               id="data-sharing"
               checked={settings.privacy.dataSharing}
-              onCheckedChange={(checked) => setSettings(prev => ({
-                ...prev,
-                privacy: { ...prev.privacy, dataSharing: checked }
-              }))}
+              onCheckedChange={(checked) =>
+                setSettings((prev) => ({
+                  ...prev,
+                  privacy: { ...prev.privacy, dataSharing: checked },
+                }))
+              }
               disabled={user?.isDemo}
             />
           </div>
@@ -278,8 +312,8 @@ export default function Settings() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleExportData}
               disabled={user?.isDemo}
               className="justify-start"
@@ -288,8 +322,8 @@ export default function Settings() {
               Export Data
             </Button>
 
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleImportData}
               disabled={user?.isDemo}
               className="justify-start"
@@ -307,11 +341,7 @@ export default function Settings() {
                   Permanently delete your account and all data
                 </p>
               </div>
-              <Button 
-                variant="destructive" 
-                size="sm"
-                disabled={user?.isDemo}
-              >
+              <Button variant="destructive" size="sm" disabled={user?.isDemo}>
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </Button>
@@ -330,7 +360,9 @@ export default function Settings() {
 
       {user?.isDemo && (
         <div className="text-center text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-          <Badge variant="secondary" className="mb-2">Demo Mode</Badge>
+          <Badge variant="secondary" className="mb-2">
+            Demo Mode
+          </Badge>
           <p>Sign in to modify your settings and save preferences</p>
         </div>
       )}

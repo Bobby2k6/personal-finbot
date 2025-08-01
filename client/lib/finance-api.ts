@@ -1,5 +1,5 @@
 // Finance API service connected to FastAPI backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 // Backend availability check
 let backendAvailable: boolean | null = null;
@@ -11,13 +11,13 @@ async function checkBackendAvailability(): Promise<boolean> {
 
   try {
     const response = await fetch(`${API_BASE_URL}/docs`, {
-      method: 'HEAD',
-      mode: 'no-cors',
+      method: "HEAD",
+      mode: "no-cors",
     });
     backendAvailable = true;
     return true;
   } catch (error) {
-    console.warn('Backend not available, falling back to demo mode');
+    console.warn("Backend not available, falling back to demo mode");
     backendAvailable = false;
     return false;
   }
@@ -111,22 +111,25 @@ export interface AuthResponse {
 
 // API Helper functions
 function getAuthToken(): string | null {
-  return localStorage.getItem('financebot-token');
+  return localStorage.getItem("financebot-token");
 }
 
 function getAuthHeaders(): HeadersInit {
   const token = getAuthToken();
   return {
-    'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }),
+    "Content-Type": "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
   };
 }
 
-async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+async function apiRequest<T>(
+  endpoint: string,
+  options: RequestInit = {},
+): Promise<T> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
-    throw new Error('Backend not available - using demo mode');
+    throw new Error("Backend not available - using demo mode");
   }
 
   const url = `${API_BASE_URL}${endpoint}`;
@@ -140,9 +143,9 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
   if (!response.ok) {
     if (response.status === 401) {
       // Token expired or invalid
-      localStorage.removeItem('financebot-token');
-      window.location.href = '/login';
-      throw new Error('Authentication required');
+      localStorage.removeItem("financebot-token");
+      window.location.href = "/login";
+      throw new Error("Authentication required");
     }
     throw new Error(`API Error: ${response.status} ${response.statusText}`);
   }
@@ -151,88 +154,95 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
 }
 
 // Authentication API functions
-export async function loginUser(email: string, password: string): Promise<AuthResponse> {
+export async function loginUser(
+  email: string,
+  password: string,
+): Promise<AuthResponse> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
     // Demo login - simulate successful authentication
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
 
     const demoUser: User = {
       id: 1,
-      name: email.split('@')[0] || 'Demo User',
+      name: email.split("@")[0] || "Demo User",
       email: email,
-      preferred_currency: 'INR',
-      theme_mode: 'light',
+      preferred_currency: "INR",
+      theme_mode: "light",
       family_mode: false,
     };
 
     const demoResponse: AuthResponse = {
-      access_token: 'demo-token',
-      token_type: 'bearer',
+      access_token: "demo-token",
+      token_type: "bearer",
       user: demoUser,
     };
 
-    localStorage.setItem('financebot-token', 'demo-token');
-    localStorage.setItem('financebot-demo-user', JSON.stringify(demoUser));
+    localStorage.setItem("financebot-token", "demo-token");
+    localStorage.setItem("financebot-demo-user", JSON.stringify(demoUser));
     return demoResponse;
   }
 
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) {
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 
   const data = await response.json();
-  localStorage.setItem('financebot-token', data.access_token);
+  localStorage.setItem("financebot-token", data.access_token);
   return data;
 }
 
-export async function registerUser(email: string, password: string, name: string): Promise<AuthResponse> {
+export async function registerUser(
+  email: string,
+  password: string,
+  name: string,
+): Promise<AuthResponse> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
     // Demo registration - simulate successful registration
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
 
     const demoUser: User = {
       id: Date.now(),
       name: name,
       email: email,
-      preferred_currency: 'INR',
-      theme_mode: 'light',
+      preferred_currency: "INR",
+      theme_mode: "light",
       family_mode: false,
     };
 
     const demoResponse: AuthResponse = {
-      access_token: 'demo-token',
-      token_type: 'bearer',
+      access_token: "demo-token",
+      token_type: "bearer",
       user: demoUser,
     };
 
-    localStorage.setItem('financebot-token', 'demo-token');
-    localStorage.setItem('financebot-demo-user', JSON.stringify(demoUser));
+    localStorage.setItem("financebot-token", "demo-token");
+    localStorage.setItem("financebot-demo-user", JSON.stringify(demoUser));
     return demoResponse;
   }
 
   const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password, name }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.detail || 'Registration failed');
+    throw new Error(error.detail || "Registration failed");
   }
 
   const data = await response.json();
-  localStorage.setItem('financebot-token', data.access_token);
+  localStorage.setItem("financebot-token", data.access_token);
   return data;
 }
 
@@ -240,19 +250,19 @@ export async function getCurrentUser(): Promise<User> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
-    const demoUser = localStorage.getItem('financebot-demo-user');
+    const demoUser = localStorage.getItem("financebot-demo-user");
     if (demoUser) {
       return JSON.parse(demoUser);
     }
-    throw new Error('No demo user found');
+    throw new Error("No demo user found");
   }
 
-  return apiRequest<User>('/api/auth/me');
+  return apiRequest<User>("/api/auth/me");
 }
 
 export function logoutUser(): void {
-  localStorage.removeItem('financebot-token');
-  localStorage.removeItem('financebot-demo-user');
+  localStorage.removeItem("financebot-token");
+  localStorage.removeItem("financebot-demo-user");
 }
 
 // Demo data for fallback mode
@@ -323,7 +333,7 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
     });
   }
 
-  return apiRequest<DashboardMetrics>('/api/dashboard');
+  return apiRequest<DashboardMetrics>("/api/dashboard");
 }
 
 // Investment API functions
@@ -336,10 +346,12 @@ export async function getInvestments(): Promise<Investment[]> {
     });
   }
 
-  return apiRequest<Investment[]>('/api/investments');
+  return apiRequest<Investment[]>("/api/investments");
 }
 
-export async function createInvestment(investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+export async function createInvestment(
+  investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">,
+): Promise<Investment> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
@@ -347,7 +359,10 @@ export async function createInvestment(investment: Omit<Investment, "id" | "grow
     const newInvestment: Investment = {
       ...investment,
       id: Date.now(),
-      growth_percentage: ((investment.current_value - investment.initial_amount) / investment.initial_amount) * 100,
+      growth_percentage:
+        ((investment.current_value - investment.initial_amount) /
+          investment.initial_amount) *
+        100,
       is_positive: investment.current_value >= investment.initial_amount,
     };
 
@@ -356,8 +371,8 @@ export async function createInvestment(investment: Omit<Investment, "id" | "grow
     });
   }
 
-  return apiRequest<Investment>('/api/investments', {
-    method: 'POST',
+  return apiRequest<Investment>("/api/investments", {
+    method: "POST",
     body: JSON.stringify({
       type: investment.type,
       name: investment.name,
@@ -369,7 +384,10 @@ export async function createInvestment(investment: Omit<Investment, "id" | "grow
   });
 }
 
-export async function updateInvestment(id: number, investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">): Promise<Investment> {
+export async function updateInvestment(
+  id: number,
+  investment: Omit<Investment, "id" | "growth_percentage" | "is_positive">,
+): Promise<Investment> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
@@ -377,7 +395,10 @@ export async function updateInvestment(id: number, investment: Omit<Investment, 
     const updatedInvestment: Investment = {
       ...investment,
       id: id,
-      growth_percentage: ((investment.current_value - investment.initial_amount) / investment.initial_amount) * 100,
+      growth_percentage:
+        ((investment.current_value - investment.initial_amount) /
+          investment.initial_amount) *
+        100,
       is_positive: investment.current_value >= investment.initial_amount,
     };
 
@@ -387,7 +408,7 @@ export async function updateInvestment(id: number, investment: Omit<Investment, 
   }
 
   return apiRequest<Investment>(`/api/investments/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify({
       type: investment.type,
       name: investment.name,
@@ -409,7 +430,7 @@ export async function deleteInvestment(id: number): Promise<void> {
   }
 
   return apiRequest<void>(`/api/investments/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
 
@@ -423,17 +444,22 @@ export async function getGoals(): Promise<FinancialGoal[]> {
     });
   }
 
-  return apiRequest<FinancialGoal[]>('/api/goals');
+  return apiRequest<FinancialGoal[]>("/api/goals");
 }
 
-export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+export async function createGoal(
+  goal: Omit<FinancialGoal, "id" | "progress_percentage">,
+): Promise<FinancialGoal> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
     const newGoal: FinancialGoal = {
       ...goal,
       id: Date.now(),
-      progress_percentage: goal.target_amount > 0 ? (goal.current_saved / goal.target_amount) * 100 : 0,
+      progress_percentage:
+        goal.target_amount > 0
+          ? (goal.current_saved / goal.target_amount) * 100
+          : 0,
     };
 
     return new Promise((resolve) => {
@@ -441,8 +467,8 @@ export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_perc
     });
   }
 
-  return apiRequest<FinancialGoal>('/api/goals', {
-    method: 'POST',
+  return apiRequest<FinancialGoal>("/api/goals", {
+    method: "POST",
     body: JSON.stringify({
       name: goal.name,
       target_amount: goal.target_amount,
@@ -454,14 +480,20 @@ export async function createGoal(goal: Omit<FinancialGoal, "id" | "progress_perc
   });
 }
 
-export async function updateGoal(id: number, goal: Omit<FinancialGoal, "id" | "progress_percentage">): Promise<FinancialGoal> {
+export async function updateGoal(
+  id: number,
+  goal: Omit<FinancialGoal, "id" | "progress_percentage">,
+): Promise<FinancialGoal> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
     const updatedGoal: FinancialGoal = {
       ...goal,
       id: id,
-      progress_percentage: goal.target_amount > 0 ? (goal.current_saved / goal.target_amount) * 100 : 0,
+      progress_percentage:
+        goal.target_amount > 0
+          ? (goal.current_saved / goal.target_amount) * 100
+          : 0,
     };
 
     return new Promise((resolve) => {
@@ -470,7 +502,7 @@ export async function updateGoal(id: number, goal: Omit<FinancialGoal, "id" | "p
   }
 
   return apiRequest<FinancialGoal>(`/api/goals/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify({
       name: goal.name,
       target_amount: goal.target_amount,
@@ -492,7 +524,7 @@ export async function deleteGoal(id: number): Promise<void> {
   }
 
   return apiRequest<void>(`/api/goals/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
 
@@ -506,10 +538,12 @@ export async function getIncomes(): Promise<Income[]> {
     });
   }
 
-  return apiRequest<Income[]>('/api/income');
+  return apiRequest<Income[]>("/api/income");
 }
 
-export async function createIncome(income: Omit<Income, "id">): Promise<Income> {
+export async function createIncome(
+  income: Omit<Income, "id">,
+): Promise<Income> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
@@ -523,8 +557,8 @@ export async function createIncome(income: Omit<Income, "id">): Promise<Income> 
     });
   }
 
-  return apiRequest<Income>('/api/income', {
-    method: 'POST',
+  return apiRequest<Income>("/api/income", {
+    method: "POST",
     body: JSON.stringify(income),
   });
 }
@@ -539,7 +573,7 @@ export async function deleteIncome(id: number): Promise<void> {
   }
 
   return apiRequest<void>(`/api/income/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
 
@@ -553,10 +587,12 @@ export async function getExpenses(): Promise<Expense[]> {
     });
   }
 
-  return apiRequest<Expense[]>('/api/expenses');
+  return apiRequest<Expense[]>("/api/expenses");
 }
 
-export async function createExpense(expense: Omit<Expense, "id">): Promise<Expense> {
+export async function createExpense(
+  expense: Omit<Expense, "id">,
+): Promise<Expense> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
@@ -570,8 +606,8 @@ export async function createExpense(expense: Omit<Expense, "id">): Promise<Expen
     });
   }
 
-  return apiRequest<Expense>('/api/expenses', {
-    method: 'POST',
+  return apiRequest<Expense>("/api/expenses", {
+    method: "POST",
     body: JSON.stringify(expense),
   });
 }
@@ -586,30 +622,32 @@ export async function deleteExpense(id: number): Promise<void> {
   }
 
   return apiRequest<void>(`/api/expenses/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 }
 
 // User settings API functions
-export async function updateUserSettings(settings: Partial<User>): Promise<User> {
+export async function updateUserSettings(
+  settings: Partial<User>,
+): Promise<User> {
   const isBackendAvailable = await checkBackendAvailability();
 
   if (!isBackendAvailable) {
     // For demo mode, just return the updated settings as if they were saved
-    const demoUser = localStorage.getItem('financebot-demo-user');
+    const demoUser = localStorage.getItem("financebot-demo-user");
     if (demoUser) {
       const user = JSON.parse(demoUser);
       const updatedUser = { ...user, ...settings };
-      localStorage.setItem('financebot-demo-user', JSON.stringify(updatedUser));
+      localStorage.setItem("financebot-demo-user", JSON.stringify(updatedUser));
       return new Promise((resolve) => {
         setTimeout(() => resolve(updatedUser), 300);
       });
     }
-    throw new Error('No demo user found');
+    throw new Error("No demo user found");
   }
 
-  return apiRequest<User>('/api/users/settings', {
-    method: 'PUT',
+  return apiRequest<User>("/api/users/settings", {
+    method: "PUT",
     body: JSON.stringify(settings),
   });
 }
@@ -623,7 +661,7 @@ export async function sendChatMessage(message: string): Promise<string> {
   // });
   // const data = await response.json();
   // return data.response;
-  
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(generateBotResponse(message));
@@ -633,22 +671,22 @@ export async function sendChatMessage(message: string): Promise<string> {
 
 function generateBotResponse(userInput: string): string {
   const input = userInput.toLowerCase();
-  
+
   if (input.includes("save") || input.includes("saving")) {
     return "Based on your current income of ₹75,000 and expenses of ₹45,000, you can save ₹30,000 this month. That's a 40% savings rate - excellent work! Consider investing some of this in mutual funds or SIPs for long-term growth.";
   }
-  
+
   if (input.includes("expense") || input.includes("spending")) {
     return "Your monthly expenses breakdown:\n• Rent: ₹20,000 (44.4%)\n• Food: ₹12,000 (26.7%)\n• Transport: ₹8,000 (17.8%)\n• Entertainment: ₹3,000 (6.7%)\n• Others: ₹2,000 (4.4%)\n\nYour largest expense category is rent. Consider if there are ways to optimize your food and transport costs.";
   }
-  
+
   if (input.includes("invest") || input.includes("investment")) {
     return "Here are some investment suggestions based on your profile:\n\n🔹 **Emergency Fund**: Build 6 months of expenses (₹2.7L) in a high-yield savings account\n🔹 **SIP in Equity Mutual Funds**: ₹15,000/month for long-term wealth building\n🔹 **ELSS Funds**: ₹12,500/month for tax saving under 80C\n🔹 **Gold ETF**: 5-10% allocation for diversification\n\nStart with index funds if you're a beginner. Would you like specific fund recommendations?";
   }
-  
+
   if (input.includes("budget") || input.includes("plan")) {
     return "Let me create a budget plan for you:\n\n**Income**: ₹75,000\n**Fixed Expenses**: ₹35,000 (Rent, utilities, insurance)\n**Variable Expenses**: ₹20,000 (Food, transport, entertainment)\n**Savings**: ₹20,000 (27% savings rate)\n\n**Recommendations**:\n• Try to reduce variable expenses by ₹5,000\n• Increase savings rate to 35-40%\n• Set up automatic transfers to savings\n\nWould you like help setting specific spending limits for each category?";
   }
-  
+
   return "I understand you're asking about your finances. I can help with budgeting, expense tracking, investment advice, and financial planning. Could you be more specific about what you'd like to know? For example, you could ask about your savings potential, expense breakdown, or investment options.";
 }

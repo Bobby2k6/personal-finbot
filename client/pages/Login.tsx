@@ -3,7 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DollarSign, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -37,15 +43,21 @@ export default function Login() {
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
-      
+
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <DollarSign className="h-8 w-8 text-emerald-600" />
-            <span className="text-2xl font-bold text-gray-900 dark:text-white">FinanceBot</span>
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">
+              FinanceBot
+            </span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">Sign in to your account to continue</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Welcome back
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Sign in to your account to continue
+          </p>
         </div>
 
         <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
@@ -62,7 +74,7 @@ export default function Login() {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -75,7 +87,7 @@ export default function Login() {
                   disabled={isLoading}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -102,14 +114,22 @@ export default function Login() {
             </form>
 
             <div className="mt-6 text-center text-sm">
-              <span className="text-gray-600 dark:text-gray-400">Don't have an account? </span>
-              <Link to="/signup" className="text-emerald-600 hover:text-emerald-500 font-medium">
+              <span className="text-gray-600 dark:text-gray-400">
+                Don't have an account?{" "}
+              </span>
+              <Link
+                to="/signup"
+                className="text-emerald-600 hover:text-emerald-500 font-medium"
+              >
                 Sign up
               </Link>
             </div>
 
             <div className="mt-4 text-center">
-              <Link to="/" className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+              <Link
+                to="/"
+                className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+              >
                 Continue with demo mode
               </Link>
             </div>

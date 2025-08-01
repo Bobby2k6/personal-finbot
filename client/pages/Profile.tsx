@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -54,7 +60,11 @@ export default function Profile() {
               <Avatar className="h-20 w-20">
                 <AvatarImage src={user.profilePicture} />
                 <AvatarFallback className="text-lg">
-                  {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                  {user.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <Button
@@ -87,9 +97,12 @@ export default function Profile() {
 
           {user.isDemo && (
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-              <h4 className="font-medium text-amber-800 dark:text-amber-200 mb-2">Demo Mode</h4>
+              <h4 className="font-medium text-amber-800 dark:text-amber-200 mb-2">
+                Demo Mode
+              </h4>
               <p className="text-sm text-amber-700 dark:text-amber-300 mb-3">
-                You're currently using FinanceBot in demo mode. Create an account to save your data and access all features.
+                You're currently using FinanceBot in demo mode. Create an
+                account to save your data and access all features.
               </p>
               <Button variant="outline" size="sm" asChild>
                 <a href="/signup">Create Account</a>
@@ -107,14 +120,18 @@ export default function Profile() {
                     <Button variant="outline" size="sm" onClick={handleCancel}>
                       Cancel
                     </Button>
-                    <Button size="sm" onClick={handleSave} disabled={user.isDemo}>
+                    <Button
+                      size="sm"
+                      onClick={handleSave}
+                      disabled={user.isDemo}
+                    >
                       <Save className="h-4 w-4 mr-2" />
                       Save Changes
                     </Button>
                   </>
                 ) : (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     onClick={() => setIsEditing(true)}
                     disabled={user.isDemo}
                   >
@@ -157,7 +174,8 @@ export default function Profile() {
             Family Finance
           </CardTitle>
           <CardDescription>
-            Enable family mode to manage shared finances with your family members
+            Enable family mode to manage shared finances with your family
+            members
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -184,7 +202,11 @@ export default function Profile() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
                       <AvatarFallback className="text-xs">
-                        {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -194,9 +216,9 @@ export default function Profile() {
                   </div>
                   <Badge variant="default">You</Badge>
                 </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="w-full"
                   disabled={user.isDemo}
                 >

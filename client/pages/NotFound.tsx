@@ -19,7 +19,8 @@ const NotFound = () => {
         <h1 className="text-6xl font-bold text-gray-300">404</h1>
         <h2 className="text-2xl font-semibold text-gray-900">Page Not Found</h2>
         <p className="text-gray-600 max-w-md">
-          This page is still being built. Continue prompting to help us fill in the content!
+          This page is still being built. Continue prompting to help us fill in
+          the content!
         </p>
         <div className="pt-4">
           <Button asChild>

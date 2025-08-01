@@ -64,16 +64,18 @@ export function MetricBreakdownModal({
     setEditableItems([...editableItems, newItem]);
   };
 
-  const updateItem = (id: string, field: keyof BreakdownItem, value: string | number) => {
-    setEditableItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, [field]: value } : item
-      )
+  const updateItem = (
+    id: string,
+    field: keyof BreakdownItem,
+    value: string | number,
+  ) => {
+    setEditableItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)),
     );
   };
 
   const removeItem = (id: string) => {
-    setEditableItems(prev => prev.filter(item => item.id !== id));
+    setEditableItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const total = editableItems.reduce((sum, item) => sum + item.amount, 0);
@@ -96,7 +98,11 @@ export function MetricBreakdownModal({
                     </Button>
                   </>
                 ) : (
-                  <Button size="sm" variant="outline" onClick={() => setIsEditing(true)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setIsEditing(true)}
+                  >
                     <Pencil className="h-4 w-4" />
                   </Button>
                 )}
@@ -114,7 +120,9 @@ export function MetricBreakdownModal({
                 <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
                   ���{total.toLocaleString()}
                 </div>
-                <div className="text-sm text-emerald-600 dark:text-emerald-400">Total {title}</div>
+                <div className="text-sm text-emerald-600 dark:text-emerald-400">
+                  Total {title}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -122,20 +130,31 @@ export function MetricBreakdownModal({
           {/* Breakdown Items */}
           <div className="space-y-3 max-h-64 overflow-y-auto">
             {editableItems.map((item) => (
-              <div key={item.id} className="flex items-center gap-3 p-3 border rounded-lg">
+              <div
+                key={item.id}
+                className="flex items-center gap-3 p-3 border rounded-lg"
+              >
                 {isEditing && item.editable !== false ? (
                   <>
                     <div className="flex-1 space-y-2">
                       <Input
                         value={item.label}
-                        onChange={(e) => updateItem(item.id, 'label', e.target.value)}
+                        onChange={(e) =>
+                          updateItem(item.id, "label", e.target.value)
+                        }
                         placeholder="Item name"
                         className="h-8"
                       />
                       <Input
                         type="number"
                         value={item.amount}
-                        onChange={(e) => updateItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
+                        onChange={(e) =>
+                          updateItem(
+                            item.id,
+                            "amount",
+                            parseFloat(e.target.value) || 0,
+                          )
+                        }
                         placeholder="Amount"
                         className="h-8"
                       />
@@ -153,9 +172,13 @@ export function MetricBreakdownModal({
                 ) : (
                   <>
                     <div className="flex-1">
-                      <div className="font-medium text-gray-900 dark:text-white">{item.label}</div>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        {item.label}
+                      </div>
                       {item.editable === false && (
-                        <Badge variant="secondary" className="text-xs">Auto-calculated</Badge>
+                        <Badge variant="secondary" className="text-xs">
+                          Auto-calculated
+                        </Badge>
                       )}
                     </div>
                     <div className="text-right">
