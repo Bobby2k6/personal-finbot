@@ -1,7 +1,4 @@
-import "./global.css";
-
 import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -35,24 +32,70 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route
-                path="/*"
+                path="/"
                 element={
                   <Layout>
-                    <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/chat" element={<ChatAssistant />} />
-                      <Route path="/investments" element={<Investments />} />
-                      <Route path="/transactions" element={<Transactions />} />
-                      <Route path="/goals" element={<Goals />} />
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="/settings" element={<Settings />} />
-                      <Route path="/contact" element={<Contact />} />
-                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <Dashboard />
                   </Layout>
                 }
               />
+              <Route
+                path="/chat"
+                element={
+                  <Layout>
+                    <ChatAssistant />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/investments"
+                element={
+                  <Layout>
+                    <Investments />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/transactions"
+                element={
+                  <Layout>
+                    <Transactions />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/goals"
+                element={
+                  <Layout>
+                    <Goals />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <Layout>
+                    <Profile />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <Layout>
+                    <Settings />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <Layout>
+                    <Contact />
+                  </Layout>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
@@ -61,4 +104,4 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+export default App;
